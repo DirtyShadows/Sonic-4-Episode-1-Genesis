@@ -1,0 +1,1229 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="RememberSpriteRing" Language="cs" Name="(Remember Sprite) Ring" Image="Image1" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite1-0.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="3" />
+    <BitsProperty name="Property2" type="Enum2" startbit="3" length="1" />
+    <BitsProperty name="Property3" type="Enum3" startbit="4" length="2" />
+    <BitsProperty name="Property4" type="Enum4" startbit="6" length="1" />
+    <BitsProperty name="Property5" type="Enum5" startbit="7" length="1" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="1 Ring" />
+      <EnumMember name="2 Rings" />
+      <EnumMember name="3 Rings" />
+      <EnumMember name="4 Rings" />
+      <EnumMember name="5 Rings" />
+      <EnumMember name="6 Rings" />
+      <EnumMember name="7 Rings" />
+      <EnumMember name="8 Rings" />
+    </Enum>
+    <Enum name="Enum2">
+      <EnumMember name="Unknown" />
+      <EnumMember name="Unknown2" />
+    </Enum>
+    <Enum name="Enum3">
+      <EnumMember name="Not Spaced" />
+      <EnumMember name="Spaced 8 R, 16 C" />
+      <EnumMember name="Spaced 16 R, Diagonal 0 C" />
+      <EnumMember name="Spaced 16 R, Diagonal 8 C" />
+    </Enum>
+    <Enum name="Enum4">
+      <EnumMember name="Row" />
+      <EnumMember name="Column" />
+    </Enum>
+    <Enum name="Enum5">
+      <EnumMember name="Unknown" />
+      <EnumMember name="Unknown2" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property1" value="1 Ring" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="2 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="3 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="4 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="64" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="5 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="64" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="6 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="64" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="112" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="7 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="64" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="112" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="136" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="8 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="64" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="112" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="136" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="160" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="1 Ring" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="2 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="16" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="3 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="4 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="64" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="5 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="64" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="88" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="6 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="64" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="88" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="112" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="7 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="64" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="88" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="112" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="136" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="8 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 8 R, 16 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="64" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="88" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="112" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="136" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="160" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="1 Ring" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="2 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="3 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="4 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="5 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="6 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="152" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="7 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="152" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="184" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="8 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="152" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="184" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="216" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="1 Ring" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="2 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="3 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="24" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="4 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="40" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="5 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="6 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="56" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="72" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="7 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="56" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="72" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="88" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="8 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 0 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="56" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="72" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="88" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="104" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="1 Ring" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="2 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="3 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="4 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="5 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="6 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="152" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="7 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="152" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="184" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="8 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="120" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="152" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="184" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="216" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="1 Ring" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="2 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="16" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="3 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="40" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="4 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="64" Y="64" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="5 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="64" Y="64" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="88" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="6 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="64" Y="64" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="88" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="112" Y="112" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="7 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="64" Y="64" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="88" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="112" Y="112" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="136" Y="136" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="8 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Spaced 16 R, Diagonal 8 C" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="16" Y="16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="64" Y="64" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="88" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="112" Y="112" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="136" Y="136" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="160" Y="160" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="1 Ring" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="2 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="3 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="4 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="5 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="6 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="7 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="8 Rings" />
+      <Condition property="Property4" value="Row" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="24" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="40" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="72" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="88" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="104" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="1 Ring" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="2 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="8" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="3 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="24" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="4 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="5 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="56" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="6 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="56" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="72" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="7 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="56" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="72" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="88" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property1" value="8 Rings" />
+      <Condition property="Property4" value="Column" />
+      <Condition property="Property3" value="Not Spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="-8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="8" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="24" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="40" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="56" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="72" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="88" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-8" Y="104" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

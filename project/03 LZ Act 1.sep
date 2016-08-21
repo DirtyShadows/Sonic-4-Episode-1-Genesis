@@ -1,0 +1,49 @@
+Type: 2
+
+Zone ID:    0
+Act ID:     0
+
+Object Def:    objdef\s1obj
+
+8x8 Tiles:     ..\SONED2S2DATA\KOS2NEM\8x8lz.bin
+
+16x16 Tiles:   ..\SONED2S2DATA\KOS2ENI\lz.bin
+
+128x128 Tiles: ..\map256\lz.bin
+
+Level Layout:  ..\SONED2S2DATA\KOS2LAY\lz1.bin
+
+Objects:       ..\objpos\lz1.bin
+Rings:         NONE
+Misc:          NONE
+
+Palettes-
+
+ Number of files: 3
+
+  Palette 1-
+
+   Start index:        0
+   Number of entries: 16
+   File:              ..\pallet\sonic.bin
+
+  Palette 2-
+
+   Start index:       16
+   Number of entries: 48
+   File:              ..\pallet\lz.bin
+
+  Palette 3-
+
+   Start index:       64
+   Number of entries: 64
+   File:              ..\pallet\lz_uw.bin
+
+Angle Array:             ..\collide\anglemap.bin
+Collision Array:         ..\collide\carray_n.bin
+Rotated Collision Array: ..\collide\carray_r.bin
+
+Collision Index 1: ..\SONED2S2DATA\KOS2COL\lz1.bin
+Collision Index 2: ..\SONED2S2DATA\KOS2COL\lz2.bin
+
+-EOF-

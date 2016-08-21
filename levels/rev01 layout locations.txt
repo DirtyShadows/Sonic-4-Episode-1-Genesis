@@ -1,0 +1,28 @@
+0x68C3E-0x68D33 - Green Hill Zone act 1 FG
+0x68D34-0x68DFF - Green Hill Zone act 2 FG
+0x68E00-0x68F21 - Green Hill Zone act 3 FG
+0x68F22-0x68F4B - Green Hill Zone (including Ending) BG
+0x68F4C-0x6904D - Labyrinth Zone act 1 FG
+0x6904E-0x69153 - Labyrinth Zone & Scrap Brain Zone act 3 BG
+0x69154-0x691F1 - Labyrinth Zone act 2 FG
+0x691F2-0x6930F - Labyrinth Zone act 3 FG
+0x69310-0x693CD - Scrap Brain Zone act 3 FG
+0x693CE-0x6946B - Marble Zone act 1 FG
+0x6946C-0x694E5 - Marble Zone act 1 BG
+0x694E6-0x69589 - Marble Zone act 2 FG
+0x6958A-0x6961F - Marble Zone act 2 BG
+0x69620-0x69701 - Marble Zone act 3 FG
+0x69702-0x697AD - Marble Zone act 3 BG
+0x697AE-0x698BF - Star Light Zone act 1 FG
+0x698C0-0x69939 - Star Light Zone BG
+0x6993A-0x69A29 - Star Light Zone act 2 FG
+0x69A2A-0x69B47 - Star Light Zone act 3 FG
+0x69B48-0x69C03 - Spring Yard Zone act 1 FG
+0x69C04-0x69C41 - Spring Yard Zone BG
+0x69C42-0x69D49 - Spring Yard Zone act 2 FG
+0x69D4A-0x69EAB - Spring Yard Zone act 3 FG
+0x69EAC-0x69FCD - Scrap Brain Zone act 1 FG
+0x69FCE-0x6A00B - Scrap Brain Zone act 1 BG
+0x6A00C-0x6A14D - Scrap Brain Zone act 2 and Final Zone FG
+0x6A14E-0x6A2BF - Scrap Brain Zone act 2 and Final Zone FG
+0x6A2C0-0x6A2DF - Ending FG

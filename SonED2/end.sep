@@ -1,0 +1,41 @@
+Type: 1	
+
+Zone ID:    0
+Act ID:     0
+
+Object Def: objdef\s1obj
+
+8x8 Tiles: ..\SourceCode\artnem\8x8ghz.bin
+
+16x16 Tiles:   ..\SourceCode\map16\ghz.bin
+
+256x256 Tiles: ..\SourceCode\map256\ghz.bin
+
+FG Layout: ..\SourceCode\levels\ending.bin
+BG Layout: ..\SourceCode\levels\ghzbg.bin
+
+Objects:       ..\SourceCode\objpos\ending.bin
+
+Palettes-
+
+ Number of files: 2
+
+  Palette 1-
+
+   Start index:        0
+   Number of entries: 16
+   File:              ..\SourceCode\pallet\sonic.bin
+
+  Palette 2-
+
+   Start index:       16
+   Number of entries: 48
+   File:              ..\SourceCode\pallet\ghz.bin
+
+Angle Array:             ..\SourceCode\collide\anglemap.bin
+Collision Array:         ..\SourceCode\collide\carray_n.bin
+Rotated Collision Array: ..\SourceCode\collide\carray_r.bin
+
+Collision Index 1: ..\SourceCode\collide\ghz.bin
+
+-EOF-

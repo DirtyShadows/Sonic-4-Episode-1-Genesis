@@ -1,0 +1,43 @@
+Type: 2
+
+Zone ID:    0
+Act ID:     0
+
+Object Def: ..\..\s2\Project\objdef\s2obj
+
+8x8 Tiles:     ..\SIZ_S2\Tiles\8x8.bin
+
+16x16 Tiles:   ..\SIZ_S2\Tiles\16x16.bin
+
+128x128 Tiles: ..\SIZ_S2\Tiles\128x128.bin
+
+Level Layout:  ..\SIZ_S2\Layout\Layout1.bin
+
+Objects:       ..\SIZ_S2\Sprites\OBJ1.bin
+Rings:         ..\SIZ_S2\Sprites\RNG1.bin
+Misc:          NONE
+
+Palettes-
+
+ Number of files: 2
+
+  Palette 1-
+
+   Start index:        0
+   Number of entries: 16
+   File:              ..\SonPal2.bin
+
+  Palette 2-
+
+   Start index:       16
+   Number of entries: 48
+   File:              ..\SIZ_S2\Palettes\Pal1.bin
+
+Angle Array:             ..\SIZ_S2\Angles1.bin
+Collision Array:         ..\SIZ_S2\SolidN1.bin
+Rotated Collision Array: ..\SIZ_S2\SolidR1.bin
+
+Collision Index 1: ..\SIZ_S2\CIndex1.bin
+Collision Index 2: ..\SIZ_S2\CIndex2.bin
+
+-EOF-

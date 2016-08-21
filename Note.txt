@@ -1,0 +1,10 @@
+4A 4B
+Dynamic_HTZ
+Un ring gigante reaparecera despues de entrar a otro, a si que hay
+que hacer que no se pueda volver hacia ellos, de alguna forma.
+Los rings gigantes deben tener su propio subtype, a la Lamppost
+Debe haber un lamppost después que el camino hacia el primer
+ring gigante esté bloqueado.
+All resize subroutines must clear FFFF9D and FFFF9B at the start!!!
+That must be the 1st function, and after starting the act for first time
+the 2nd function must be saved, after that.

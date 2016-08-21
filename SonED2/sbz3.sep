@@ -1,0 +1,47 @@
+Type: 1	
+
+Zone ID:    0
+Act ID:     0
+
+Object Def: objdef\s1obj
+
+8x8 Tiles: ..\SourceCode\artnem\8x8sbz.bin
+
+16x16 Tiles:   ..\SourceCode\map16\sbz.bin
+
+256x256 Tiles: ..\SourceCode\map256\sbz.bin
+
+FG Layout: ..\SourceCode\levels\sbz3.bin
+BG Layout: ..\SourceCode\levels\sbzbg.bin
+
+Objects:       ..\SourceCode\objpos\sbz3.bin
+
+Palettes-
+
+ Number of files: 3
+
+  Palette 1-
+
+   Start index:        0
+   Number of entries: 16
+   File:              ..\SourceCode\pallet\sonic.bin
+
+  Palette 2-
+
+   Start index:       16
+   Number of entries: 48
+   File:              ..\SourceCode\pallet\sbz_act3.bin
+   
+  Palette 3-
+
+   Start index:       64
+   Number of entries: 64
+   File:              ..\SourceCode\pallet\sbz_a3uw.bin
+
+Angle Array:             ..\SourceCode\collide\anglemap.bin
+Collision Array:         ..\SourceCode\collide\carray_n.bin
+Rotated Collision Array: ..\SourceCode\collide\carray_r.bin
+
+Collision Index 1: ..\SourceCode\collide\sbz.bin
+
+-EOF-

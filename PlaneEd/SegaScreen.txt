@@ -1,0 +1,9 @@
+Palette File: ..\pallet\title.bin
+Mapping File: ..\mapeni\titlefg.bin
+Art File: ..\artnem\titlefg.bin
+Mapping Compression: Enigma
+Art Compression: Nemesis
+Palette Length: 0x80
+Palette Offset: 0x32
+x-Size: 40
+y-Size: 28

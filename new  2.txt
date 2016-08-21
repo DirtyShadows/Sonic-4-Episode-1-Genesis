@@ -1,0 +1,25 @@
+	moveq	#0,d0				; Quickly clear d0
+	tst.b	($FFFFFE2E).w		; Does character have speedshoes?
+	beq.s	setspeed1				; If not, branch
+	addq.b	#1,d0				; Quickly add 1 to d0
+setJDspeed1:
+	btst	#6,status(a0)			; Is the character underwater?
+	beq.s	setspeed2				; If not, branch
+	addq.b	#1,d0				; Quickly add 2 to d0
+setJDspeed2:
+	tst.b	(Super_Sonic_flag).w		; Is the character Super?
+	beq.s	setspeed3				; If not, branch
+	addq.b	#2,d0				; Quickly add 4 to d0
+setJDspeed3:
+	add.b	d0,d0				; Multiply itself
+	lea	JDSpeedsettings(pc,d0.w),x_vel(a0)	; Load correct speed settings into a1
+	clr.w	y_vel(a0)			; clear Y-velocity to move sonic directly down
+JDSpeedsettings:	
+	dc.w	$A00		; $00	; Normal
+	dc.w	$B00		; $08	; Normal Speedshoes
+	dc.w	$800		; $16	; Normal Underwater
+	dc.w	$A00		; $24	; Normal Underwater Speedshoes
+	dc.w	$B00		; $32	; Super
+	dc.w	$D00		; Super Speedshoes
+	dc.w	$600		; $48	; Super Underwater
+	dc.w	$800		; $56	; Super Underwater Speedshoes

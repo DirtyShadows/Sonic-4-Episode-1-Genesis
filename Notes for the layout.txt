@@ -1,0 +1,5 @@
+Notes:
+- Dont place badniks.
+- Place just 1 giant ring, hidden somewhere.
+- Max X boundary is defined at $4000, and from $3E00 the Max Y boundary is $218 until $4000. 
+- Do not place a signpost.

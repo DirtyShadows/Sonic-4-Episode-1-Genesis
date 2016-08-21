@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ObjDef xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" Namespace="SonED2.ZoneCommon" TypeName="Spikes" Language="cs" Name="Spikes" Image="Image1" RememberState="false" Debug="false" xmlns="http://www.sonicretro.org">
+  <Images>
+    <ImageFromBitmap id="Image1" filename="Sprites/s1objsprite1-17.png" />
+    <ImageFromBitmap id="Image2" filename="Sprites/s1objsprite1-18.png" />
+  </Images>
+  <Properties>
+    <BitsProperty name="Property1" type="Enum1" startbit="0" length="1" />
+    <BitsProperty name="Property2" type="Enum2" startbit="1" length="1" />
+    <BitsProperty name="Property3" type="Enum3" startbit="2" length="2" />
+    <BitsProperty name="Property4" type="Enum4" startbit="4" length="3" />
+    <BitsProperty name="Property5" type="Enum5" startbit="7" length="1" />
+  </Properties>
+  <Enums>
+    <Enum name="Enum1">
+      <EnumMember name="Non-moving" />
+      <EnumMember name="Moving U/D" />
+    </Enum>
+    <Enum name="Enum2">
+      <EnumMember name="Non-moving" />
+      <EnumMember name="Moving L/R" />
+    </Enum>
+    <Enum name="Enum3">
+      <EnumMember name="Unknown" />
+      <EnumMember name="Unknown2" />
+      <EnumMember name="Unknown3" />
+      <EnumMember name="Unknown4" />
+    </Enum>
+    <Enum name="Enum4">
+      <EnumMember name="3 Spikes - normal" />
+      <EnumMember name="3 Spikes - horizontal" />
+      <EnumMember name="1 Spike" />
+      <EnumMember name="3 Spikes - widely spaced" />
+      <EnumMember name="6 Spikes - widely spaced" />
+      <EnumMember name="1 Spike - horizontal" />
+      <EnumMember name="Unknown" />
+      <EnumMember name="Unknown2" />
+    </Enum>
+    <Enum name="Enum5">
+      <EnumMember name="Unknown" />
+      <EnumMember name="Unknown2" />
+    </Enum>
+  </Enums>
+  <Display>
+    <DisplayOption>
+      <Condition property="Property4" value="3 Spikes - normal" />
+      <ImageRef image="Image1">
+        <Offset X="-20" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-4" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="12" Y="-16" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property4" value="3 Spikes - horizontal" />
+      <ImageRef image="Image2">
+        <Offset X="-15" Y="-20" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-15" Y="-4" />
+      </ImageRef>
+      <ImageRef image="Image2">
+        <Offset X="-15" Y="12" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property4" value="1 Spike" />
+      <ImageRef image="Image1">
+        <Offset X="-4" Y="-16" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property4" value="3 Spikes - widely spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-28" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-4" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="20" Y="-16" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property4" value="6 Spikes - widely spaced" />
+      <ImageRef image="Image1">
+        <Offset X="-64" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-40" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="-16" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="8" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="32" Y="-16" />
+      </ImageRef>
+      <ImageRef image="Image1">
+        <Offset X="56" Y="-16" />
+      </ImageRef>
+    </DisplayOption>
+    <DisplayOption>
+      <Condition property="Property4" value="1 Spike - horizontal" />
+      <ImageRef image="Image2">
+        <Offset X="-15" Y="-4" />
+      </ImageRef>
+    </DisplayOption>
+  </Display>
+</ObjDef>

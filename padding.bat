@@ -1,0 +1,1 @@
+copy /b sonic_old.bin+padding.bin sonic.bin

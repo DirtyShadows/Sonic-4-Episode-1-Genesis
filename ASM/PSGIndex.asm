@@ -1,0 +1,2 @@
+;9
+   dc.l PSG1, PSG2, PSG3, PSG4, PSG5, PSG6, PSG7, PSG8, PSG9

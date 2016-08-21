@@ -1,0 +1,76 @@
+/*
+ * S1 Hacking Studio 2.0 Help - CSS Table
+ * (C) 2010, Vladikcomper
+ */
+
+/* COMMON CLASSES */
+body	{ 
+	color: #000033;
+	background-color: #eee;
+	font-size: 100%; /* велике хацк!!1 */
+	line-height: 135%;
+	font-family: 'Times New Roman';
+	margin: 3em 15% 3em 15%;
+}
+
+h1	{
+	font-size: 130%;
+	margin: 1.5em 0 0.5em 0; /* up right bottom left */
+}
+
+h2	{
+	font-size: 110%;
+	font-weight: bold;
+	margin: 0.5em 0 0.5em 0; /* up right bottom left */
+}
+
+pre	{
+	background-color: #fff;
+	padding: 5px;
+	line-height: 130%;
+	border: 1px #ccc dotted
+}
+
+ul	{
+	padding: 0;
+	margin-left: 20px;
+}
+
+li	{
+	margin-bottom: 1em
+}
+
+a	{
+	color: blue;
+}
+
+/* HEADER CLASSES */
+.header	{
+	font-family: 'Verdana'
+}
+
+.header h1	{
+	font-size: 200%;
+	color: #822;
+	margin-bottom: 0
+}
+
+.header p	{
+	margin: 0.4em 0 1em 0
+}
+
+.header p.menu	{
+	border-bottom: 1px solid #000;
+	border-top: 1px solid #000;
+	font-size: 1.1em;
+	padding: 0.5em 0 0.5em 0
+	}
+	
+.header p.menu span	{
+	margin-right: 1.5em;
+}
+
+/* ASM HIGHLIGHTING */
+pre .comment	{ color: #080 }
+pre .instr	{ color: #00F }
+pre .number	{ color: #800 }

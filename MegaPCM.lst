@@ -1,0 +1,196 @@
+ AS V1.42 Beta [Bld 55] - source file MegaPCM.asm - page 1 - 2/12/2014 19:57:33
+
+
+       1/       0 :                     
+       2/       0 :                     ; ===============================================================
+       3/       0 :                     ; Mega PCM Driver Include File
+       4/       0 :                     ; (c) 2012, Vladikcomper
+       5/       0 :                     ; ===============================================================
+       6/       0 :                     
+       7/       0 :                     ; ---------------------------------------------------------------
+       8/       0 :                     ; Variables used in DAC table
+       9/       0 :                     ; ---------------------------------------------------------------
+      10/       0 :                     
+      11/       0 :                     ; flags
+      12/       0 : =$C0                panLR	= $C0
+      13/       0 : =$80                panL	= $80
+      14/       0 : =$40                panR	= $40
+      15/       0 : =$0                 pcm	= 0
+      16/       0 : =$4                 dpcm	= 4
+      17/       0 : =$2                 loop	= 2
+      18/       0 : =$1                 pri	= 1
+      19/       0 :                     
+      20/       0 :                     ; ---------------------------------------------------------------
+      21/       0 :                     ; Macros
+      22/       0 :                     ; ---------------------------------------------------------------
+      23/       0 :                     
+      24/       0 :                     z80word macro Value
+      25/       0 :                     	dc.w	((\Value)&$FF)<<8|((\Value)&$FF00)>>8
+      26/       0 :                     	endm
+      27/       0 :                     
+      28/       0 :                     DAC_Entry macro Pitch,Offset,Flags
+      29/       0 :                     	dc.b	\Flags			; 00h	- Flags
+      30/       0 :                     	dc.b	\Pitch			; 01h	- Pitch
+      31/       0 :                     	dc.b	(\Offset>>15)&$FF	; 02h	- Start Bank
+      32/       0 :                     	dc.b	(\Offset\_End>>15)&$FF	; 03h	- End Bank
+      33/       0 :                     	z80word	(\Offset)|$8000		; 04h	- Start Offset (in Start bank)
+      34/       0 :                     	z80word	(\Offset\_End-1)|$8000	; 06h	- End Offset (in End bank)
+      35/       0 :                     	endm
+      36/       0 :                     	
+      37/       0 :                     DAC_Entry_RAM macro Pitch,Offset,Flags
+      38/       0 :                     	dc.b	\Flags			; 00h	- Flags
+      39/       0 :                     	dc.b	\Pitch			; 01h	- Pitch
+      40/       0 :                     	dc.b	0			; 02h	- Start Bank
+      41/       0 :                     	dc.b	0			; 03h	- End Bank
+      42/       0 :                     	z80word	(MegaPCM_SamplesRAM-MegaPCM)				; 04h	- Start Offset
+      43/       0 :                     	z80word	(MegaPCM_SamplesRAM-MegaPCM+\Offset\_End-\Offset)	; 06h	- End Offset
+      44/       0 :                     	endm
+      45/       0 :                     	
+      46/       0 :                     IncludeDAC macro Name,Extension
+      47/       0 :                     \Name:
+      48/       0 :                     	if strcmp('\extension','wav')
+      49/       0 :                     		incbin	'dac/\Name\.\Extension\',$3A
+      50/       0 :                     	else
+      51/       0 :                     		incbin	'dac/\Name\.\Extension\'
+      52/       0 :                     	endc
+      53/       0 :                     \Name\_End:
+      54/       0 :                     	endm
+      55/       0 :                     
+      56/       0 :                     ; ---------------------------------------------------------------
+      57/       0 :                     ; Driver's code
+      58/       0 :                     ; ---------------------------------------------------------------
+      59/       0 :                     
+      60/       0 :                     MegaPCM:
+ AS V1.42 Beta [Bld 55] - source file MegaPCM.asm - page 2 - 2/12/2014 19:57:33
+
+
+> > >MegaPCM.asm(61): error: unknown opcode
+> > > INCBIN
+> > > 	incbin	'MegaPCM.z80'
+      61/       0 :                     	incbin	'MegaPCM.z80'
+      62/       0 :                     
+      63/       0 :                     ; ---------------------------------------------------------------
+      64/       0 :                     ; Sonic 3 Sample definitions
+      65/       0 :                     ; ---------------------------------------------------------------
+      66/       0 :                      
+      67/       0 : (MACRO)                 DAC_Entry   $04+2, D81,     dpcm ; 81 - Snare
+> > >MegaPCM.asm(67) DAC_ENTRY(1): error: invalid symbol name
+> > > \DPCM
+> > >         dc.b    \DPCM                  ; 00h   - DPCM
+      67/       0 :                             dc.b    \DPCM                  ; 00h   - DPCM
+> > >MegaPCM.asm(67) DAC_ENTRY(2): error: invalid symbol name
+> > > \$04
+> > >         dc.b    \$04+2                  ; 01h   - $04+2
+      67/       0 :                             dc.b    \$04+2                  ; 01h   - $04+2
+> > >MegaPCM.asm(67) DAC_ENTRY(3): error: invalid symbol name
+> > > \D81
+> > >         dc.b    (\D81>>15)&$FF       ; 02h   - Start Bank
+      67/       0 :                             dc.b    (\D81>>15)&$FF       ; 02h   - Start Bank
+> > >MegaPCM.asm(67) DAC_ENTRY(4): error: invalid symbol name
+> > > \D81\_End
+> > >         dc.b    (\D81\_End>>15)&$FF  ; 03h   - End Bank
+      67/       0 :                             dc.b    (\D81\_End>>15)&$FF  ; 03h   - End Bank
+      67/       0 : (MACRO)                     z80word (\D81)|$8000         ; 04h   - Start D81 (in Start bank)
+> > >MegaPCM.asm(67) DAC_ENTRY(5) Z80WORD(1): error: invalid symbol name
+> > > \D81
+> > >         dc.w    ((\(\D81)|$8000)&$FF)<<8|((\(\D81)|$8000)&$FF00)>>8
+> > >MegaPCM.asm(67) DAC_ENTRY(5) Z80WORD(1): error: invalid symbol name
+> > > \D81
+> > >         dc.w    ((\(\D81)|$8000)&$FF)<<8|((\(\D81)|$8000)&$FF00)>>8
+      67/       0 :                             dc.w    ((\(\D81)|$8000)&$FF)<<8|((\(\D81)|$8000)&$FF00)>>8
+      67/       0 : (MACRO)                     z80word (\D81\_End-1)|$8000  ; 06h   - End D81 (in End bank)
+> > >MegaPCM.asm(67) DAC_ENTRY(6) Z80WORD(1): error: invalid symbol name
+> > > \D81\_END
+> > >         dc.w    ((\(\D81\_END-1)|$8000)&$FF)<<8|((\(\D81\_END-1)|$8000)&$FF00)>>8
+> > >MegaPCM.asm(67) DAC_ENTRY(6) Z80WORD(1): error: invalid symbol name
+> > > \D81\_END
+> > >         dc.w    ((\(\D81\_END-1)|$8000)&$FF)<<8|((\(\D81\_END-1)|$8000)&$FF00)>>8
+      67/       0 :                             dc.w    ((\(\D81\_END-1)|$8000)&$FF)<<8|((\(\D81\_END-1)|$8000)&$FF00)>>8
+      68/       0 : (MACRO)                 DAC_Entry   $0E+2, D8285,   dpcm ; 82 - High-Tom
+> > >MegaPCM.asm(68) DAC_ENTRY(1): error: invalid symbol name
+> > > \DPCM
+> > >         dc.b    \DPCM                  ; 00h   - DPCM
+      68/       0 :                             dc.b    \DPCM                  ; 00h   - DPCM
+> > >MegaPCM.asm(68) DAC_ENTRY(2): error: invalid symbol name
+> > > \$0E
+> > >         dc.b    \$0E+2                  ; 01h   - $0E+2
+      68/       0 :                             dc.b    \$0E+2                  ; 01h   - $0E+2
+> > >MegaPCM.asm(68) DAC_ENTRY(3): error: invalid symbol name
+> > > \D8285
+> > >         dc.b    (\D8285>>15)&$FF       ; 02h   - Start Bank
+      68/       0 :                             dc.b    (\D8285>>15)&$FF       ; 02h   - Start Bank
+> > >MegaPCM.asm(68) DAC_ENTRY(4): error: invalid symbol name
+> > > \D8285\_End
+> > >         dc.b    (\D8285\_End>>15)&$FF  ; 03h   - End Bank
+      68/       0 :                             dc.b    (\D8285\_End>>15)&$FF  ; 03h   - End Bank
+      68/       0 : (MACRO)                     z80word (\D8285)|$8000         ; 04h   - Start D8285 (in Start bank)
+ AS V1.42 Beta [Bld 55] - source file MegaPCM.asm - page 3 - 2/12/2014 19:57:33
+
+
+> > >MegaPCM.asm(68) DAC_ENTRY(5) Z80WORD(1): error: invalid symbol name
+> > > \D8285
+> > >         dc.w    ((\(\D8285)|$8000)&$FF)<<8|((\(\D8285)|$8000)&$FF00)>>8
+> > >MegaPCM.asm(68) DAC_ENTRY(5) Z80WORD(1): error: invalid symbol name
+> > > \D8285
+> > >         dc.w    ((\(\D8285)|$8000)&$FF)<<8|((\(\D8285)|$8000)&$FF00)>>8
+      68/       0 :                             dc.w    ((\(\D8285)|$8000)&$FF)<<8|((\(\D8285)|$8000)&$FF00)>>8
+      68/       0 : (MACRO)                     z80word (\D8285\_End-1)|$8000  ; 06h   - End D8285 (in End bank)
+> > >MegaPCM.asm(68) DAC_ENTRY(6) Z80WORD(1): error: invalid symbol name
+> > > \D8285\_END
+> > >         dc.w    ((\(\D8285\_END-1)|$8000)&$FF)<<8|((\(\D8285\_END-1)|$8000)&$FF00)>>8
+> > >MegaPCM.asm(68) DAC_ENTRY(6) Z80WORD(1): error: invalid symbol name
+> > > \D8285\_END
+> > >         dc.w    ((\(\D8285\_END-1)|$8000)&$FF)<<8|((\(\D8285\_END-1)|$8000)&$FF00)>>8
+      68/       0 :                             dc.w    ((\(\D8285\_END-1)|$8000)&$FF)<<8|((\(\D8285\_END-1)|$8000)&$FF00)>>8
+      69/       0 : (MACRO)                 DAC_Entry   $14+2, D8285,   dpcm ; 83 - Mid-Tom
+> > >MegaPCM.asm(69) DAC_ENTRY(1): error: invalid symbol name
+> > > \DPCM
+> > >         dc.b    \DPCM                  ; 00h   - DPCM
+      69/       0 :                             dc.b    \DPCM                  ; 00h   - DPCM
+> > >MegaPCM.asm(69) DAC_ENTRY(2): error: invalid symbol name
+> > > \$14
+> > >         dc.b    \$14+2                  ; 01h   - $14+2
+      69/       0 :                             dc.b    \$14+2                  ; 01h   - $14+2
+> > >MegaPCM.asm(69) DAC_ENTRY(3): error: invalid symbol name
+> > > \D8285
+> > >         dc.b    (\D8285>>15)&$FF       ; 02h   - Start Bank
+      69/       0 :                             dc.b    (\D8285>>15)&$FF       ; 02h   - Start Bank
+> > >MegaPCM.asm(69) DAC_ENTRY(4): error: invalid symbol name
+> > > \D8285\_End
+> > >         dc.b    (\D8285\_End>>15)&$FF  ; 03h   - End Bank
+      69/       0 :                             dc.b    (\D8285\_End>>15)&$FF  ; 03h   - End Bank
+      69/       0 : (MACRO)                     z80word (\D8285)|$8000         ; 04h   - Start D8285 (in Start bank)
+> > >MegaPCM.asm(69) DAC_ENTRY(5) Z80WORD(1): error: invalid symbol name
+> > > \D8285
+> > >         dc.w    ((\(\D8285)|$8000)&$FF)<<8|((\(\D8285)|$8000)&$FF00)>>8
+> > >MegaPCM.asm(69) DAC_ENTRY(5) Z80WORD(1): error: invalid symbol name
+> > > \D8285
+> > >         dc.w    ((\(\D8285)|$8000)&$FF)<<8|((\(\D8285)|$8000)&$FF00)>>8
+      69/       0 :                             dc.w    ((\(\D8285)|$8000)&$FF)<<8|((\(\D8285)|$8000)&$FF00)>>8
+      69/       0 : (MACRO)                     z80word (\D8285\_End-1)|$8000  ; 06h   - End D8285 (in End bank)
+> > >MegaPCM.asm(69) DAC_ENTRY(6) Z80WORD(1): error: invalid symbol name
+> > > \D8285\_END
+> > >         dc.w    ((\(\D8285\_END-1)|$8000)&$FF)<<8|((\(\D8285\_END-1)|$8000)&$FF00)>>8
+> > >MegaPCM.asm(69) DAC_ENTRY(6) Z80WORD(1): error: invalid symbol name
+> > > \D8285\_END
+> > >         dc.w    ((\(\D8285\_END-1)|$8000)&$FF)<<8|((\(\D8285\_END-1)|$8000)&$FF00)>>8
+      69/       0 :                             dc.w    ((\(\D8285\_END-1)|$8000)&$FF)<<8|((\(\D8285\_END-1)|$8000)&$FF00)>>8
+      70/       0 : (MACRO)                 DAC_Entry   $1A+2, D8285,   dpcm ; 84 - Low-Tom
+> > >MegaPCM.asm(70) DAC_ENTRY(1): error: invalid symbol name
+> > > \DPCM
+> > >         dc.b    \DPCM                  ; 00h   - DPCM
+      70/       0 :                             dc.b    \DPCM                  ; 00h   - DPCM
+> > >MegaPCM.asm(70) DAC_ENTRY(2): error: invalid symbol name
+> > > \$1A
+> > >         dc.b    \$1A+2                  ; 01h   - $1A+2
+      70/       0 :                             dc.b    \$1A+2                  ; 01h   - $1A+2
+> > >MegaPCM.asm(70) DAC_ENTRY(3): error: invalid symbol name
+> > > \D8285
+> > >         dc.b    (\D8285>>15)&$FF       ; 02h   - Start Bank
+ AS V1.42 Beta [Bld 55] - source file MegaPCM.asm - page 4 - 2/12/2014 19:57:34
+
+
+      70/       0 :                             dc.b    (\D8285>>15)&$FF       ; 02h   - Start Bank
+> > >MegaPCM.asm(70) DAC_ENTRY(4): error: invalid symbol name
+> > > \D8285\_End
+> > >         dc.b    (\D8285\_End>>15)&$FF  ;

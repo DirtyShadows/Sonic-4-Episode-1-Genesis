@@ -1,0 +1,35 @@
+Type: 1	
+
+Zone ID:    0
+Act ID:     0
+
+Object Def: objdef\s1obj
+
+8x8 Tiles: ..\artnem\8x8titlebg.bin
+
+16x16 Tiles:   ..\map16\titlebg.bin
+
+256x256 Tiles: ..\map256\titlebg.bin
+
+FG Layout: ..\levels\title.bin
+BG Layout: ..\levels\titlebg.bin
+
+Objects:       ..\objpos\abz1.bin
+
+Palettes-
+
+ Number of files: 1
+
+  Palette 1-
+
+   Start index:       0
+   Number of entries: 64
+   File:              ..\pallet\title.bin
+
+Angle Array:             ..\collide\anglemap.bin
+Collision Array:         ..\collide\carray_n.bin
+Rotated Collision Array: ..\collide\carray_r.bin
+
+Collision Index 1: ..\collide\titlebg.bin
+
+-EOF-

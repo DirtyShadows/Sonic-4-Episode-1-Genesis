@@ -1,0 +1,21 @@
+Obj3A_TimeBonus:			; XREF: Obj3A_Index
+		bsr.w	DisplaySprite
+		move.b  #1,($FFFFF7D6).w
+		moveq   #0,d0
+		move.b  ($FFFFF605).w,d1
+		andi.b  #$F0,d1
+		beq.s   loc_12B06
+		move.w  ($FFFFF7D2).w,d0
+		clr.w   ($FFFFF7D2).w
+		add.w   ($FFFFF7D4).w,d0
+		clr.w   ($FFFFF7D4).w
+		bra.s   Obj3A_ChkBonus
+
+loc_12B06:                              ; CODE XREF: ROM:00012AF2j
+		tst.w   ($FFFFF7D2).w
+		beq.s   Obj3A_RingBonus
+		addi.w  #$A,d0
+		subi.w  #$A,($FFFFF7D2).w
+
+
+Obj3A_RingBonus:

@@ -1,0 +1,74 @@
+****************************************************************************
+* MACRO         SaveRegs
+* DESCRIPTION:  Sends all to the stack.Remember to use RestoreRegs 
+* after this at some point.
+* (Useless, but improves readbility of the code)
+*               
+* PARAMETERS:   None.
+****************************************************************************
+SaveRegs   MACRO
+        movem.l d0-d7/a0-a6,-(a7)
+        ENDM
+
+****************************************************************************
+* MACRO         RestoreRegs
+* DESCRIPTION:  Restores values from the stack.
+* (Useless, but improves readbility of the code)
+*               
+* PARAMETERS:   None.
+****************************************************************************
+RestoreRegs   MACRO
+        movem.l (a7)+,d0-d7/a0-a6
+        ENDM
+
+****************************************************************************
+* MACRO         InterruptsOn
+* DESCRIPTION:  Activates the interrupts
+* (Useless, but improves readbility of the code)
+*               
+* PARAMETERS:   None.
+****************************************************************************
+InterruptsOn   MACRO
+        move.w	#$2000,	sr 	;Activate the Interrupts
+        move.w	#$8010,	$c00004
+        move.w	#$8164,	$c00004
+        ENDM
+
+****************************************************************************
+* MACRO         InterruptsOff
+* DESCRIPTION:  Deactivates the interrupts and the display
+* (Useless, but improves readbility of the code)
+*               
+* PARAMETERS:   None.
+****************************************************************************
+InterruptsOff   MACRO
+        move.w	#$2700,	sr 	;Activate the Interrupts
+        move.w	#$8000,	$c00004
+        move.w	#$8100,	$c00004
+        ENDM
+****************************************************************************
+* MACRO         DMA68KtoVRAM by drx //untested
+* DESCRIPTION:  Obvius.
+*               
+* PARAMETERS:   
+*1: length (original, not shifted)
+*
+*2: source addr (not shifted)
+*
+*3: destination addr
+*
+*4: = %001 if VRAM, %011 if CRAM, %101 if VSRAM
+*
+* e.g		DMA68KtoVRAM  512, $1AB46E, $A000,  %001
+****************************************************************************
+
+DMA68KtoVRAM   MACRO
+        move.w	#$9400+(((\1)&$FF00)>>9),($C00004).l
+        move.w	#$9300+(((\1)&$FF)>>1),($C00004).l
+
+        move.w	#$9600+(((\2>>1)&$FF00)>>8),($C00004).l
+        move.w	#$9500+((\2>>1)&$FF),($C00004).l
+        move.w	#$9700+((((\2>>1)&$FF0000)>>16)&$7F),($C00004).l
+
+        move.l	#($80+((\3&$3FFF)<<16)+((\3&$4000)>>14)+((\4&$4)<<2)+((\4&$3)<<30)),($C00004).l
+        ENDM

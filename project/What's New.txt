@@ -1,0 +1,49 @@
+V1.03
+
+BugFixes:
+
+   - Removed some mistakenly-included early development code that caused keys
+     1, 2, 3, and 4 to modify the editor's level layout size settings without
+     correcting the level data array, causing accidental data loss upon accidental
+     stray keypresses. The proper keys for resizing the level are (and have been)
+     Ctrl+Arrows
+
+V1.02
+
+   - Update to the Sonic 1 Object Def files by Hivebrain (graphics for GHZ and various
+     misc sprites, object def text and settings tweaks)
+
+BugFixes:
+
+   - Though the previous version properly accounted for the "Remember Sprite State"
+     flag, it was still handled improperly during save. The flag saves now, and a
+     feature to set all sprites in the level to their default "Remember Sprite State"
+     setting (SHIFT+0) can be used to correct improper flag states (but not otherwise
+     damaged sprites). (This is not automatic because it would contradict the ability
+     to manually toggle the flag for each sprite)
+
+   - Minimum/maximum sprite setting values weren't properly enforced when using the
+     A/Z keys, allowing the value to go below 0 or above FF, causing the program to
+     read beyond the end of the object def data and crash. The limit is now properly
+     enforced
+
+V1.01
+
+BugFixes:
+
+   - Misinformation about sprite storage in Sonic 1 led to a misuse of a flag
+     stored in the sprite type, causing some sprites to vanish during gameplay.
+     This flag is now recognized as the "Remember Sprite State" flag and handled
+     appropriately (This problem wasn't present in SonED because the original
+     object def files treated the full value as if it were the real ID)
+
+   - A typo caused Height map lists smaller than 256 entries would only expand to
+     255. The final entry is now available
+
+   - A typo in the Sonic 2 Object Def rendered the "Egg Prison" sprite unselectable.
+     The problem is corrected in the current def, enabling the sprite to be selected
+     for editing and/or moving
+
+V1.00
+
+   - First release

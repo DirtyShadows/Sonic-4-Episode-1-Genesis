@@ -1,0 +1,205 @@
+<!-- (C) 2010, Vladikcomper -->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>Справка S1HS2</title>
+<link type="text/css" rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+<div class="header">
+	<h1>S1 Hacking Studio 2</h1>
+	<p style="font-size: 90%">Справочное руководство</p>
+	<p class="menu">
+		<span><a href="Index.htm">Введение</a></span>
+		<span class="active">Дизасембл</span>
+		<span><a href="S1HS.htm">S1HS</a></span>
+		<span><a href="Creditor.htm">Creditor</a></span>
+		<span><a href="SonEd2.htm">SonED2</a></span>
+	</p>
+</div>
+
+<p><b>S1 Hacking Studio</b> использует <i>Hivebrain's 2005 Disassembly</i> с компилятором ASM68K. Оригинальный дизасембл был частично изменен для нужд программы, например, некоторые маппинги вынесены в файлы, некоторые данные переконвертированы из формата ASM в BIN. Дизасембл также был усовершенствован и дополнен, добавлено несколько макросов для удобства, добавлено много новых комментариев, множество лейбелов были названы смысловыми именами (до этого у них были имена <b>loc_XXXX</b> или <b>sub_XXXX</b>).</p>
+
+<h1>Основные изменения кода</h1>
+
+<p>В оригинальный код игры были внесены некоторые изменения и усовершенствования. Сделано это, во-первых, для нужд S1 Hacking Studio, во-вторых, для улучшения самой игры.</p>
+	
+<ul>
+	<li>Увеличено количество слотов для музыки, сделано это, чтобы можно было настроить отдельную песню для каждого акта. Изменилось также и распределение мелодий, теперь музыка уровней последовательно занимает слоты $81-93, а остальные мелодии сместились на слоты $94-9F. Также изменился код воспроизведения музыки на уровнях (см. Level_GetBgm, Obj01_PlayMusic и др).</li>	
+	<li>Исправлен звук на экране SEGA, по гиду Puto.</li>	
+	<li>Изменен способ динамической загрузки арта Соника, по гиду &laquo;How to add Spin Dash Part III&raquo;. Это освободило участок памяти $C900-CB00.</li>	
+	<li>Несколько небольших правок кода, загружающего следующий уровень для FZ и SBZ3 (см. Resize_SBZ3 и loc_1A248).
+	<li>Арт GHZ слит в один файл, Title Screen теперь использует отдельный арт.</li>
+	<li>Изменены VRAM адреса для загрузки тайлов букв на экране Credits, чтобы вместить дополнительные символы W, V, Q, Z.</li>	
+	<li>Удален код проверки контрольной суммы и красного экрана.</li>
+</ul>
+   
+<h1>Основные усовершенствования</h1>
+
+<ul>
+	<li>Поинтеры на уровни в меню выбора уровней были конвертированы в формат ASM и вынесены в файл _inc\Level select pointers.asm. Содержимое файла отформатировано и комментировано, теперь можно с легкостью изменить порядок уровней в Левел селекте.</li>	
+	<li>Код выбора уровней, который раньше находился в виде файла в папке misc, теперь находится в sonic1.asm (лейбел LSCode_J) и приобрел понятный формат.</li>	
+	<li>Плейлист, который раньше был в misc\musiclist1.bin, внесен в sonic1.asm. Второй плейлист - misc\musiclist2.bin - был вообще удален из-за полного сходства с первым.</li>	
+	<li>Маппинги названий зон и экрана SONIC HAS PASSED были частично выделены в файлы формата BIN для изменения с помощью S1HS. То же случилось и с конфигурацией Title Cards (см. Obj34_ConData). Теперь все эти данные лежат в папке mapbin ввиде файлов.</li>
+</ul>
+	
+<h1>Макросы и их использование</h1>
+
+<p>В обновленный дизасембл S1HS добавилось 4 новых макроса. Все макросы теперь находятся в файле macro.asm.</p>
+
+<h2>vram</h2>
+
+<p><i>Аргументы:</i><br />
+<b>1</b> &mdash; адрес VRAM<br />
+<b>2</b> &mdash; регистр или адрес, куда будет записан полученный код доступа</p>
+
+<p>Макрос для получения доступа к VRAM на запись. Второй аргумент необязателен, если он не указан, то код доступа будет послан сразу в VDP Control Port (адрес <i>$C00004</i>). Вы также можете записать его в регистр или в RAM M68K, и получить доступ позже, послав содержимое регистра в $C00004.</p>
+
+<h2>raise</h2>
+
+<p><i>Аргументы:</i><br />
+<b>1</b> &mdash; код ошибки<br />
+<b>2</b> &mdash; роутина для обработки ошибки<br />
+<b>3</b> &mdash; если существует, прибавляет 2 к указателю стека</p>
+
+<p>Специфический макрос для векторов ошибок, дабы сэкономить размер кода. Вам вряд ли понадобится этот макрос, так как большинство ошибок им уже обрабатывается. Так что забудьте о нем, как о страшном сне.</p>
+
+<h2>theld, tpress</h2>
+
+<p><i>Аргументы:</i><br />
+<b>1</b> &mdash; перечень кнопок<br />
+<b>2</b> &mdash; адрес битового поля с состоянием кнопок</p>
+
+<p>Эти два макроса проверяют нажаты ли или удерживаются заданные кнопки. Они призваны упростить жизнь и избавить кодеров от нужды постоянно проверять индексы и значения для нужных им кнопок. Все кнопки объявляются ввиде констант с их именами, так что в первом аргументе вы можете сразу писать их имена, например, <b>C</b> или <b>Start</b>. Если вам необходимо проверить несколько кнопок, просто перечислите их, разделяя знаками + или |, например: <b>A+B+C</b>.</p>
+
+<p>Второй аргумент - битовое поле, которое нужно проверить. В нем-то и прописано, какие кнопки активны. В Sonic 1 предусмотрены два таких поля, которые в макросе определены именами <b>Joypad</b> и <b>SonicControl</b>. Первое всегда отображает состояние джойпада и обновляется постоянно. Второе отвечает за управление Соником, оно обычно просто дублирует кнопки джойпада. Однако, поле SonicControl отличается тем, что иногда способно блокироваться, и перестает получать нажатия кнопок с джойпада, например, если не нужно больше, чтобы игрок управлял Соником. В режиме демо-уровней, это поле также заблокировано и получает нажатия кнопок из записанных прохождений. Если вы пишете код для Соника, лучше всего вторым аргументом указывать SonicControl.</p>
+
+<p>После выполнения макросов можно использовать условные переходы. <b>BEQ</b> переходит, если ни одна из заданных кнопок <i>не нажата</i>, <b>BNE</b> срабатывает, если хотя бы одна из перечисленных кнопок <i>нажата</i>:</p>
+
+<pre>	tpress	A+B+C<span class="number">,(</span>SonicControl<span class="number">)</span>	<span class="comment">; нажаты ли A, B или C?</span>
+	<span class="instr">beq.s</span>	XXXXXXX			<span class="comment">; если нет, переходим</span></pre>
+
+<h1>Конфигурация дизасембла</h1>
+
+<p>В зависимости от настроек S1HS требуется помимо файлов изменять или добавлять код в файле sonic1.asm, например, если в программе поставлен флажок на Spin Dash'е, требуется добавить его код в sonic1.asm.</p>
+
+<p>Для этого был введен файл config.asm, описывающий часть выбранных в S1HS настроек, в зависимости от которых потом потребуется изменить код. В файле содержится список констант и переменных с определенным значениями. Они при компиляции кода будут влиять на то, какой код добавлять и изменять. Константы и переменные имеют вот такой формат:</p>
+
+<pre>Константа	<span class="instr">equ</span>	<span class="number">Значение</span>
+Переменная	=	<span class="number">Значение</span></pre>
+
+<p>Условия, в зависимости от которых вставлять опредленный код описываются в самом же sonic1.asm с помощью директивы if.<p>
+
+<pre>	if (условие)
+		<span class="comment">; код, который нужно вставлять, если условие верно</span>
+	esle
+		<span class="comment">; код, вставляемый если условие неверно</span>
+	endc</pre>
+	
+<p>В других случаях, например с ударами боссов, условий не требуется, нужно только подставить в строку значение переменной, для этого вместо числа просто пишется значение переменной, например:</p>
+
+<pre>	<span class="instr">move.b</span>  <span class="number">#</span>var_BHits_GHZ,<span class="number">$21(</span><b>a0</b><span class="number">)</span></pre>
+
+<h1>Аннотации в коде</h1>
+
+<p>В дизасембле S1HS было аннотировано огромное количество кода и исправлены ошибки, неточные названия лейбелов и комментарии оригинального Hivebrain's 2005 Disassembly.</p>
+
+<p>Вот пример плохо-комментированной суброутины в оригинальном дизасембле:</p>
+
+<pre>loc_177E6:
+		<span class="instr">move</span>.<span class="instr">b</span>	$3F(<b>a0</b>),<b>d0</b>
+		<span class="instr">jsr</span>	(CalcSine).<span class="instr">l</span>
+		<span class="instr">asr</span>.<span class="instr">w</span>	#6,<b>d0</b>
+		<span class="instr">add</span>.<span class="instr">w</span>	$38(<b>a0</b>),<b>d0</b>
+		<span class="instr">move</span>.<span class="instr">w</span>	<b>d0</b>,$C(<b>a0</b>)
+		<span class="instr">move</span>.<span class="instr">w</span>	$30(<b>a0</b>),8(<b>a0</b>)
+		<span class="instr">addq</span>.<span class="instr">b</span>	#2,$3F(<b>a0</b>)
+		<span class="instr">cmpi</span>.<span class="instr">b</span>	#8,$25(<b>a0</b>)
+		<span class="instr">bcc</span>.<span class="instr">s</span>	locret_1784A
+		<span class="instr">tst</span>.<span class="instr">b</span>	$22(<b>a0</b>)
+		<span class="instr">bmi</span>.<span class="instr">s</span>	loc_1784C
+		<span class="instr">tst</span>.<span class="instr">b</span>	$20(<b>a0</b>)
+		<span class="instr">bne</span>.<span class="instr">s</span>	locret_1784A
+		<span class="instr">tst</span>.<span class="instr">b</span>	$3E(<b>a0</b>)
+		<span class="instr">bne</span>.<span class="instr">s</span>	Obj3D_ShipFlash
+		<span class="instr">move</span>.<span class="instr">b</span>	#$20,$3E(<b>a0</b>)	<span class="comment">; set number of	times for ship to flash</span>
+		<span class="instr">move</span>.<span class="instr">w</span>	#$AC,<b>d0</b>
+		<span class="instr">jsr</span>	(PlaySound_Special).<span class="instr">l</span> <span class="comment">;	play boss damage sound</span>
+
+Obj3D_ShipFlash:
+		<span class="instr">lea</span>	($FFFFFB22).<span class="instr">w</span>,<b>a1</b> <span class="comment">; load	2nd pallet, 2nd	entry</span>
+		<span class="instr">moveq</span>	#0,<b>d0</b>		<span class="comment">; move 0 (black) to d0</span>
+		<span class="instr">tst</span>.<span class="instr">w</span>	(<b>a1</b>)
+		<span class="instr">bne</span>.<span class="instr">s</span>	loc_1783C
+		<span class="instr">move</span>.<span class="instr">w</span>	#$EEE,<b>d0</b>	<span class="comment">; move 0EEE (white) to d0</span>
+
+loc_1783C:
+		<span class="instr">move</span>.<span class="instr">w</span>	<b>d0</b>,(<b>a1</b>)		<span class="comment">; load colour stored in	d0</span>
+		<span class="instr">subq</span>.<span class="instr">b</span>	#1,$3E(<b>a0</b>)
+		<span class="instr">bne</span>.<span class="instr">s</span>	locret_1784A
+		<span class="instr">move</span>.<span class="instr">b</span>	#$F,$20(<b>a0</b>)
+
+locret_1784A:
+		<span class="instr">rts</span></pre>
+		
+<p>Эта же суброутина в обновленном дизасембле:</p>
+
+<pre><span class="comment">; This routine does the main ship stuff</span>
+
+Obj3D_ShipProcess:
+		<span class="comment">; Move ship slightly up and down during the flight</span>
+		<span class="instr">move</span>.<span class="instr">b</span>	$3F(<b>a0</b>),<b>d0</b>	<span class="comment">; Y-amplitude</span>
+		<span class="instr">jsr</span>	(CalcSine).<span class="instr">l</span>
+		<span class="instr">asr</span>.<span class="instr">w</span>	#6,<b>d0</b>		<span class="comment">; d0 contains sine</span>
+		<span class="instr">add</span>.<span class="instr">w</span>	$38(<b>a0</b>),<b>d0</b>	<span class="comment">; add secondary Y-pos to d0</span>
+		<span class="instr">move</span>.<span class="instr">w</span>	<b>d0</b>,$C(<b>a0</b>)	<span class="comment">; and we've got Y-pos with the amplitude</span>
+		<span class="instr">move</span>.<span class="instr">w</span>	$30(<b>a0</b>),8(<b>a0</b>)
+		<span class="instr">addq</span>.<span class="instr">b</span>	#2,$3F(<b>a0</b>)	<span class="comment">; reduce the amplitude</span>
+		
+		<span class="comment">; Touch repsonse stuff</span>
+		<span class="instr">cmpi</span>.<span class="instr">b</span>	#8,$25(<b>a0</b>)	<span class="comment">; is routine more or equals to 8?</span>
+		<span class="instr">bcc</span>.<span class="instr">s</span>	locret_1784A	<span class="comment">; if yes, branch</span>
+		<span class="instr">tst</span>.<span class="instr">b</span>	$22(<b>a0</b>)		<span class="comment">; was boss defeated?</span>
+		<span class="instr">bmi</span>.<span class="instr">s</span>	Obj3D_ShipGone	<span class="comment">; if yes, branch</span>
+		<span class="instr">tst</span>.<span class="instr">b</span>	$20(<b>a0</b>)		<span class="comment">; is touch response zero?</span>
+		<span class="instr">bne</span>.<span class="instr">s</span>	locret_1784A	<span class="comment">; if not, branch</span>
+		<span class="instr">tst</span>.<span class="instr">b</span>	$3E(<b>a0</b>)		<span class="comment">; is flashes counter zero?</span>
+		<span class="instr">bne</span>.<span class="instr">s</span>	Obj3D_ShipFlash	<span class="comment">; if not, branch</span>
+		<span class="instr">move</span>.<span class="instr">b</span>	#$20,$3E(<b>a0</b>)	<span class="comment">; set number of	times to flash</span>
+		<span class="instr">move</span>.<span class="instr">w</span>	#$AC,<b>d0</b>
+		<span class="instr">jsr</span>	(PlaySound_Special).<span class="instr">l</span> <span class="comment">;	play boss damage sound</span>
+
+Obj3D_ShipFlash:
+		<span class="instr">lea</span>	($FFFFFB22).<span class="instr">w</span>,<b>a1</b> <span class="comment">; load	2nd pallet, 2nd	entry</span>
+		<span class="instr">moveq</span>	#0,<b>d0</b>		<span class="comment">; move 0 (black) to d0</span>
+		<span class="instr">tst</span>.<span class="instr">w</span>	(<b>a1</b>)		<span class="comment">; is colour in pallete black?</span>
+		<span class="instr">bne</span>.<span class="instr">s</span>	loc_1783C	<span class="comment">; if not, branch</span>
+		<span class="instr">move</span>.<span class="instr">w</span>	#$EEE,<b>d0</b>	<span class="comment">; move 0EEE (white) to d0</span>
+
+loc_1783C:
+		<span class="instr">move</span>.<span class="instr">w</span>	<b>d0</b>,(<b>a1</b>)		<span class="comment">; apply colour stored in d0</span>
+		<span class="instr">subq</span>.<span class="instr">b</span>	#1,$3E(<b>a0</b>)	<span class="comment">; subtract 1 from flashes counter</span>
+		<span class="instr">bne</span>.<span class="instr">s</span>	locret_1784A	<span class="comment">; if flashes counter is not zero, branch</span>
+		<span class="instr">move</span>.<span class="instr">b</span>	#$F,$20(<b>a0</b>)	<span class="comment">; restore touch responsibility</span>
+
+locret_1784A:</pre>
+
+<p>Вот лишь неполный список аннотированных роутин и блоков кода:</p>
+
+<ul>
+	<li><b>SegaScreen</b>, <b>TitleScreen</b>, <b>Level</b> и некоторые другие.</li>
+	<li><b>Obj01</b> и большая часть его суброутин, <b>Obj05</b>, <b>Obj3D</b>, <b>Obj48</b> и др.</li>
+	<li><b>LoadPLC</b>, <b>PalLoad</b> и их производные.</li>
+	<li><b>HBlank</b>, <b>Vblank</b> и его роутины.</li>
+	<li><b>BuildSprites</b>, <b>ShowVDPGraphics</b>.</li>
+	<li><b>MoveSonicInDemo</b>.</li>
+</ul>
+
+</body>
+
+</html>
+
+<!-- Абажаю ХэТэМэЛочку, ня! ^_^ -->

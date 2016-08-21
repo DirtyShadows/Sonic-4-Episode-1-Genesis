@@ -1,0 +1,93 @@
+Start	= 7
+A	= 6
+C	= 5
+B	= 4
+Right	= 3
+Left	= 2
+Down	= 1
+Up	= 0
+
+3A0
+		move.w	#0,($FFFFFE20).w ; reset number	of rings to zero
+		move.b	#$80,($FFFFFE1D).w ; update ring counter
+		move.b	#0,($FFFFFE1B).w
+
+; ===========================================================================
+; ---------------------------------------------------------------------------
+; Object 19 - <FAN CHARACTER> (In cutscenes)
+; ---------------------------------------------------------------------------
+
+Obj19:					; XREF: Obj_Index
+		moveq	#0,d0
+		move.b	$24(a0),d0
+		move.w	Obj19_Index(pc,d0.w),d1
+		jmp	Obj19_Index(pc,d1.w)
+; ===========================================================================
+Obj19_Index:
+                dc.w    Obj19_Main-Obj19_Index       ; $00
+                dc.w    Obj19_Action-Obj19_Index     ; $02
+
+;============================================================================
+Obj19_Main:
+                addq.b	#2,$24(a0)                   ; add $02 to routine
+		move.l	#Map_obj19,4(a0)             ; load mappings
+		move.w	#$63D0,2(a0)                 ; load tiles
+		move.b	#4,1(a0)                     ; load render flags
+		move.b	#$13,$19(a0)                 ; load Y-radius
+		move.b	#4,$18(a0)                   ; load X-radius
+;============================================================================
+Obj19_Action:
+                lea	(Ani_obj19).l,a1             ; load animation index
+		jsr	AnimateSprite                ; call animate routine
+		moveq	#0,d0
+		move.b	($FFFFFE10).w,d0
+		add.w	d0,d0
+		move.w	Obj19_Cutscenes(pc,d0.w),d0
+		jmp	Obj19_Cutscenes(pc,d0.w)
+;                moveq	#0,d0                        ; move 0 to d0
+;		move.b	($FFFFFE10).w,d0             ; move Zone RAM to d0
+;		move.w	Obj19_Cutscenes(pc,d0.w),d1  ; move routine Obj19_Cutscenes to d1
+;		jmp	Obj19_Cutscenes(pc,d1.w)     ; jump to Obj19_Cutscenes
+;============================================================================
+Obj19_Cutscenes:
+                dc.w    Obj19_GHZ-Obj19_Cutscenes,Obj19_LZ-Obj19_Cutscenes
+                dc.w    Obj19_MZ-Obj19_Cutscenes,Obj19_SLZ-Obj19_Cutscenes 
+                dc.w    Obj19_SYZ-Obj19_Cutscenes,Obj19_SBZ-Obj19_Cutscenes
+;============================================================================
+Obj19_GHZ:
+                jsr     SpeedToPos
+                bra.w   Obj19_Display
+;============================================================================
+Obj19_LZ:
+                jsr     SpeedToPos
+                bra.w   Obj19_Display
+;============================================================================
+Obj19_MZ:
+                jsr     SpeedToPos
+                bra.w   Obj19_Display
+;============================================================================
+Obj19_SLZ:
+                jsr     SpeedToPos
+                bra.w   Obj19_Display
+;============================================================================
+Obj19_SYZ:
+                jsr     SpeedToPos
+                bra.w   Obj19_Display
+;============================================================================
+Obj19_SBZ:
+                jsr     SpeedToPos
+                bra     Obj19_Display
+;============================================================================
+Obj19_Display:
+                jmp     DisplaySprite                ; Display the sprite
+                
+;============================================================================
+Ani_Obj19:
+                dc.w    Ani_1-Ani_Obj19
+                dc.w    Ani_2-Ani_Obj19
+Ani_1:          dc.b    0, 0, 1, $FF
+Ani_2:          dc.b    0, 0, 1, $FF
+;============================================================================
+Map_Obj19:
+                include "_maps\obj19.asm"
+                

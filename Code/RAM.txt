@@ -1,0 +1,45 @@
+Start	= 7
+A	= 6
+C	= 5
+B	= 4
+Right	= 3
+Left	= 2
+Down	= 1
+Up	= 0
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;                           MEMORY LOCATIONS                               ;
+
+; >>>Free Space<<< ->> ($FFFFFF90) - ($FFFFFF91) - ($FFFFFF92) - ($FFFFFF93)
+; >>>Free Space<<< ->> ($FFFFFF94) - ($FFFFFF95) - ($FFFFFF96) - ($FFFFFF97)
+; >>>Free Space<<< ->> ($FFFFFF98) - ($FFFFFF99) - ($FFFFFF9A) - ($FFFFFF9B)
+; >>>Free Space<<< ->> ($FFFFFF9C) - ($FFFFFF9D) - ($FFFFFF9E) - ($FFFFFF9F)
+; >>>Free Space<<< ->> ($FFFFFFA0) - ($FFFFFFA1) - ($FFFFFFA2) - ($FFFFFFA3)
+; >>>Free Space<<< ->> ($FFFFFFA4) - ($FFFFFFA5) - ($FFFFFFA6) - ($FFFFFFA7)
+; >>>Free Space<<< ->> ($FFFFFFA8) - ($FFFFFFA9) - ($FFFFFFAA) - ($FFFFFFAB)
+; >>>Free Space<<< ->> ($FFFFFFAC) - ($FFFFFFAD) - ($FFFFFFAE) - ($FFFFFFAF)
+; >>>Free Space<<< ->> ($FFFFFFB0) - ($FFFFFFB1) - ($FFFFFFB2) - ($FFFFFFB3)
+; >>>Free Space<<< ->> ($FFFFFFB4) - ($FFFFFFB5) - ($FFFFFFB6) - ($FFFFFFB7)
+; [[[Sonic Team]]] ->> ($FFFFFFB8) - ($FFFFFFB9) - ($FFFFFFBA) - ($FFFFFFBB)
+; >>>Free Space<<< ->> ($FFFFFFBC) - ($FFFFFFBD) - ($FFFFFFBE) - ($FFFFFFBF)
+; >>>Free Space<<< ->> ($FFFFFFC0) - ($FFFFFFC1) - ($FFFFFFC2) - ($FFFFFFC3)
+; >>>Free Space<<< ->> ($FFFFFFC4) - ($FFFFFFC5) - ($FFFFFFC6) - ($FFFFFFC7)
+; >>>Free Space<<< ->> ($FFFFFFC8) - ($FFFFFFC9) - ($FFFFFFCA) - ($FFFFFFCB)
+; >>>Free Space<<< ->> ($FFFFFFCC) - ($FFFFFFCD) - ($FFFFFFCE) - ($FFFFFFCF)
+; >>>Free Space<<< ->> ($FFFFFFD0) - ($FFFFFFD1) - ($FFFFFFD2) - ($FFFFFFD3)
+; >>>Free Space<<< ->> ($FFFFFFD4) - ($FFFFFFD5) - ($FFFFFFD6) - ($FFFFFFD7)
+; >>>Free Space<<< ->> ($FFFFFFD8) - ($FFFFFFD9) - ($FFFFFFDA) - ($FFFFFFDB)
+; >>>Free Space<<< ->> ($FFFFFFDC) - ($FFFFFFDD) - ($FFFFFFDE) - ($FFFFFFDF)
+; [[[Sonic Team]]] ->> ($FFFFFFE0) - ($FFFFFFE1) - ($FFFFFFE2) - ($FFFFFFE3)
+; [[[Sonic Team]]] ->> ($FFFFFFE4) - ($FFFFFFE5) - ($FFFFFFE6) - ($FFFFFFE7)
+; >>>Free Space<<< ->> ($FFFFFFE8) - ($FFFFFFE9)
+; [[[Sonic Team]]] ->> ($FFFFFFEA) - ($FFFFFFEB) - ($FFFFFFEC) - ($FFFFFFED)
+; [[[Sonic Team]]] ->> ($FFFFFFEE) - ($FFFFFFEF) - ($FFFFFFF0) - ($FFFFFFF1)
+; >>>Free Space<<< ->> ($FFFFFFF2) - ($FFFFFFF3)
+; >>>Free Space<<< ->> ($FFFFFFF4) - ($FFFFFFF5) - ($FFFFFFF6) - ($FFFFFFF7)
+; [[[Sonic Team]]] ->> ($FFFFFFF8) - ($FFFFFFF9) - ($FFFFFFFA) - ($FFFFFFFB)
+; [[[Sonic Team]]] ->> ($FFFFFFFC) - ($FFFFFFFD) - ($FFFFFFFE) - ($FFFFFFFF)
+;
+; >>>Free Space<<< = Go Wild!
+; [[[Sonic Team]]] = DO NOT TOUCH!
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
