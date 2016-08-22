@@ -7123,6 +7123,8 @@ loc_47D4:
 		lea	(Nem_TitleCard).l,a0 ; load title card patterns
 		jsr	NemDec
 		jsr	Hud_Base
+		clr.w	($FFFFC800).w
+		move.l	#$FFFFC800,($FFFFC8FC).w
 		move	#$2300,sr
 		moveq	#$11,d0
 		jsr	PalLoad2	; load results screen pallet
@@ -32071,6 +32073,7 @@ hurt2:
 	bsr.w	Sonic_HurtStop
 	bsr.w	Sonic_LevelBound
 	bsr.w	Sonic_RecordPos
+	bsr.w	Sonic_Water
 	bsr.w	Sonic_Animate
 	bsr.w	LoadSonicDynPLC
 	jmp	DisplaySprite
@@ -33022,7 +33025,7 @@ loc_13F02:
 ; ===========================================================================
 
 Obj0A_WarnSound:			; XREF: Obj0A_Countdown
-		move.w	#$C2,d0
+		move.w	#$A9,d0
 		jsr	(PlaySound_Special).l ;	play "ding-ding" warning sound
 
 Obj0A_ReduceAir:
