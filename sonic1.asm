@@ -46216,8 +46216,9 @@ Hud_ChkTimeNotPAL:
 	blt.s	ContinueHUDU	; if not, branch
 	cmpi.b	#40,(Timer_second).w
 	blt.s	ContinueHUDU
-	move.b	#$D3,($FFFFF00A)
-
+	stopZ80
+	move.b	#$A7,($A01C0A).l
+	startZ80
 ContinueHUDU:
 ;	btst	#6,($FFFFFFF8).w	; is Sega PAL (European)?
 ;	bne.s	ContinueHUDUPAL
