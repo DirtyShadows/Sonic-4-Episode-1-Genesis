@@ -2481,7 +2481,7 @@ z80_MusicBanks:
 		db  zmake68kBank(Snd_LBZ1),zmake68kBank(Snd_LBZ2),zmake68kBank(Snd_MHZ1),zmake68kBank(Snd_MHZ2)
 
 		db  zmake68kBank(Snd_SOZ1),zmake68kBank(Snd_SOZ2),zmake68kBank(Snd_LRZ1),zmake68kBank(Snd_LRZ2)
-		db  zmake68kBank(Snd_SSZ),zmake68kBank(Snd_DEZ1),zmake68kBank(Snd_DEZ2),zmake68kBank(Snd_Minib_SK)
+		db  zmake68kBank(Snd_SSZ),zmake68kBank(Snd_DEZ1),zmake68kBank(Snd_S4Credits),zmake68kBank(Snd_Minib_SK)
 		db  zmake68kBank(Snd_Boss),zmake68kBank(Snd_DDZ),zmake68kBank(Snd_PachBonus),zmake68kBank(Snd_SpecialS)
 		db  zmake68kBank(Snd_SlotBonus),zmake68kBank(Snd_GumBonus),zmake68kBank(Snd_Knux),zmake68kBank(Snd_ALZ)
 
@@ -4110,7 +4110,7 @@ z80_MusicPointers:
 		dw	zmake68kPtr(Snd_LBZ1),zmake68kPtr(Snd_LBZ2),zmake68kPtr(Snd_MHZ1),zmake68kPtr(Snd_MHZ2)
 
 		dw	zmake68kPtr(Snd_SOZ1),zmake68kPtr(Snd_SOZ2),zmake68kPtr(Snd_LRZ1),zmake68kPtr(Snd_LRZ2)
-		dw	zmake68kPtr(Snd_SSZ),zmake68kPtr(Snd_DEZ1),zmake68kPtr(Snd_DEZ2),zmake68kPtr(Snd_Minib_SK)
+		dw	zmake68kPtr(Snd_SSZ),zmake68kPtr(Snd_DEZ1),zmake68kPtr(Snd_S4Credits),zmake68kPtr(Snd_Minib_SK)
 		dw	zmake68kPtr(Snd_Boss),zmake68kPtr(Snd_DDZ),zmake68kPtr(Snd_PachBonus),zmake68kPtr(Snd_SpecialS)
 		dw	zmake68kPtr(Snd_SlotBonus),zmake68kPtr(Snd_GumBonus),zmake68kPtr(Snd_Knux),zmake68kPtr(Snd_ALZ)
 
@@ -4908,10 +4908,9 @@ Snd_LRZ1:			include	"..\sound\cutscene.asm"
 Snd_LRZ2:			include	"..\sound\eggstationz80.asm"
 Snd_SSZ:			include	"..\sound\specialstages4z80.asm"
 Snd_DEZ1:			include	"..\sound\gameclear.asm"
-Snd_DEZ2:			
 Snd_Minib_SK:		include	"Sound/Music/Miniboss.asm"
 Snd_Boss:			include	"../sound/sharrierz80.asm"
-Snd_DDZ:			include	"Sound/Music/DDZ.asm"
+Snd_DDZ:			include	"../sound/NewRecordz80.asm"
 Snd_PachBonus:		include	"Sound/Music/Pachinko.asm"
 Snd_SpecialS:		include	"Sound/Music/Special Stage.asm"
 Snd_SlotBonus:		include	"Sound/Music/Slots.asm"
@@ -4974,8 +4973,15 @@ Snd_2PMenu:			include	"..\sound\supersonicz80.asm"
 Snd_Drown:			include	"Sound/Music/Countdown.asm"
 	finishBank
 
+; ---------------------------------------------------------------------------
+; Music Bank 5
+; ---------------------------------------------------------------------------
+Snd_Bank5_Start:	startBank
+Snd_S4Credits:			include	"..\sound\staffcreditsunfinishedz80.asm"
+	finishBank
+
 	shared Snd_FBZ1,Snd_FBZ2,Snd_MHZ1,Snd_MHZ2,Snd_SOZ1,Snd_SOZ2,Snd_LRZ1
-	shared Snd_LRZ2,Snd_SSZ,Snd_DEZ1,Snd_DEZ2,Snd_Minib_SK,Snd_Boss,Snd_DDZ
+	shared Snd_LRZ2,Snd_SSZ,Snd_DEZ1,Snd_S4Credits,Snd_Minib_SK,Snd_Boss,Snd_DDZ
 	shared Snd_PachBonus,Snd_SpecialS,Snd_SlotBonus,Snd_Knux,Snd_Title,Snd_1UP
 	shared Snd_Emerald,Snd_AIZ1,Snd_AIZ2,Snd_HCZ1,Snd_HCZ2,Snd_MGZ1,Snd_MGZ2
 	shared Snd_CNZ2,Snd_CNZ1,Snd_ICZ2,Snd_ICZ1,Snd_LBZ2,Snd_LBZ1,Snd_SKCredits

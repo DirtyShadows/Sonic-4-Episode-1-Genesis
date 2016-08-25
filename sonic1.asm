@@ -33664,7 +33664,7 @@ Obj4A_Main:				; XREF: Obj4A_Index
 
 Obj4A_Main2:
 		addq.b	#2,routine(a0)
-		move.l	#Map_obj4A,4(a0)
+		move.l	#Map_Rocket,4(a0)
 		move.b	#4,1(a0)
 		move.w	#$80,priority(a0)
 		move.b	#$38,width_pixels(a0)
@@ -33672,16 +33672,16 @@ Obj4A_Main2:
 		move.w	#120,$30(a0)	; set time for Sonic's disappearance to 2 seconds
 
 Obj4A_RmvSonic:				; XREF: Obj4A_Index
-		move.w	($FFFFD008).w,8(a0)
-		move.w	($FFFFD00C).w,$C(a0)
-		move.b	($FFFFD022).w,status(a0)
+;		move.w	($FFFFD008).w,8(a0)
+;		move.w	($FFFFD00C).w,$C(a0)
+;		move.b	($FFFFD022).w,status(a0)
 		lea	(Ani_obj4A).l,a1
 		jsr	AnimateSprite
-		cmpi.b	#2,mapping_frame(a0)
-		bne.s	Obj4A_Display
-		tst.b	($FFFFD000).w
-		beq.s	Obj4A_Display
-		move.b	#0,($FFFFD000).w ; remove Sonic
+;		cmpi.b	#2,mapping_frame(a0)
+;		bne.s	Obj4A_Display
+;		tst.b	($FFFFD000).w
+;		beq.s	Obj4A_Display
+;		move.b	#0,($FFFFD000).w ; remove Sonic
 		move.w	#$6A,d0
 		jsr	(PlaySound_Special).l ;	play Special Stage "GOAL" sound
 
@@ -33690,9 +33690,9 @@ Obj4A_Display:
 ; ===========================================================================
 
 Obj4A_LoadSonic:			; XREF: Obj4A_Index
-		subq.w	#1,$30(a0)	; subtract 1 from time
-		bne.s	Obj4A_Wait	; if time remains, branch
-		move.b	#1,($FFFFD000).w ; load	Sonic object
+;		subq.w	#1,$30(a0)	; subtract 1 from time
+;		bne.s	Obj4A_Wait	; if time remains, branch
+;		move.b	#1,($FFFFD000).w ; load	Sonic object
 		jmp	DeleteObject
 ; ===========================================================================
 
@@ -33858,6 +33858,10 @@ Ani_obj4A:
 ; ---------------------------------------------------------------------------
 Map_obj4A:
 	include "_maps\obj4A.asm"
+	
+Map_Rocket:
+	include "_maps\S4 Rocket.asm"
+	even
 
 Ani_obj08:
 	include "_anim\obj08.asm"
@@ -47973,6 +47977,8 @@ Blk256_ABZ3:	incbin	"LevelConverter\abz2\Chunks.bin"
 Nem_Eggman:	incbin	artnem\bossmain.bin	; boss main patterns
 		even
 Nem_Weapons:	incbin	artnem\bossxtra.bin	; boss add-ons and weapons
+		even
+Nem_Rocket:	incbin	artnem\s4rocket.bin	; boss add-ons and weapons
 		even
 Nem_Prison:	incbin	artnem\prison.bin	; prison capsule
 		even
