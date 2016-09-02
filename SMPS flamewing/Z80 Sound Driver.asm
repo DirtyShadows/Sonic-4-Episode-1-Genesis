@@ -4917,7 +4917,7 @@ Snd_SlotBonus:		include	"Sound/Music/Slots.asm"
 Snd_Knux:			include	"Sound/Music/Knuckles.asm"
 Snd_Title:			include	"Sound/Music/Title.asm"
 Snd_1UP:			include	"../sound/1UP.asm"
-Snd_Emerald:		include	"Sound/Music/Chaos Emerald.asm"
+Snd_Emerald:		include	"s2\music\Got emerald.asm"
 
 	finishBank
 
@@ -4970,7 +4970,7 @@ Snd_CGZ:			include	"Sound/Music/Chrome Gadget.asm"
 Snd_EMZ:			include	"Sound/Music/Endless Mine.asm"
 Snd_S3Credits:		include	"Sound/Music/Sonic 3 Credits.asm"
 Snd_2PMenu:			include	"..\sound\supersonicz80.asm"	
-Snd_Drown:			include	"Sound/Music/Countdown.asm"
+Snd_Drown:			include	"s2\music\Drowning.asm"
 	finishBank
 
 ; ---------------------------------------------------------------------------

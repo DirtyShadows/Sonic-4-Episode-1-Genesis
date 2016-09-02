@@ -20,4 +20,6 @@
 	dc.b 1,	3, 6, $80
 	dc.l Map_obj79+$79000000
 	dc.b 1,	0, 6, $C0
+	dc.l Map_Rocket+$4A000000
+	dc.b 0,	0, 5,	$41
 	even

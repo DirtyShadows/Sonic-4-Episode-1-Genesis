@@ -2,5 +2,5 @@
 ; Animation script - special stage entry effect from beta
 ; ---------------------------------------------------------------------------
 		dc.w byte_14458-Ani_obj4A
-byte_14458:	dc.b 5,	0, 1, 0, 1, 0, 7, 1, 7,	2, 7, 3, 7, 4, 7, 5, 7, 6, 7, $FC
+byte_14458:	dc.b  $20, 1,	$FF
 		even

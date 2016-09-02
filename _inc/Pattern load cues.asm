@@ -652,8 +652,10 @@ PLC_TimeOverSS_End
 ; Pattern load cues - Alpha Beta
 ; ---------------------------------------------------------------------------
 PLC_ABZ:	dc.w ((PLC_ABZ_End-PLC_ABZ-2)/6)-1
-		;dc.l Nem_ABZ		; ABZ main patterns
-		;dc.w 0
+		dc.l Nem_Eggman		; Eggman main patterns
+		dc.w $8000
+		dc.l Nem_Rocket		; ABZ main patterns
+		dc.w $A820
 PLC_ABZ_End
 PLC_ABZ2:	dc.w ((PLC_ABZ2_End-PLC_ABZ2-2)/6)-1
 		dc.l Nem_MzSwitch	; switch

@@ -1821,7 +1821,7 @@ LoadSpriteList:
 
 
 PauseGame:
-		nop
+		nop		
 		cmpi.b	#$18,(Game_Mode).w
 		blt.s	Pause_Main
 		rts
@@ -1840,7 +1840,14 @@ Pause_Main:
 		andi.b	#$80,d0	; is Start pressed?
 		beq.w	Pause_NoPause	; if not, branch
 		;jsr		Pause_LoadBGArt
+		cmpi.b	#7,($FFFFFE10).w
+		bne.s	PauseGame_No
+		move.w	#$502,($FFFFFE10).w
+		move.w	#1,($FFFFFE02).w ; restart level
+		rts
+PauseGame_No:
 Pause_Main2:
+		move.w	#1,($FFFFF63A).w
 		move.w	#1,($FFFFF63A).w
 		move.w	#$100,($A11100).l
  
@@ -3152,26 +3159,75 @@ locret_1A80:
 
 
 PalCycle_SYZ:				; XREF: PalCycle
-		subq.w	#1,($FFFFF634).w
-		bpl.s	locret_1AC6
-		move.w	#5,($FFFFF634).w
-		move.w	($FFFFF632).w,d0
-		addq.w	#1,($FFFFF632).w
-		andi.w	#3,d0
-		lsl.w	#2,d0
-		move.w	d0,d1
-		add.w	d0,d0
-		lea	(Pal_SYZCyc1).l,a0
-		lea	($FFFFFB6E).w,a1
-		move.l	(a0,d0.w),(a1)+
-		move.l	4(a0,d0.w),(a1)
-		lea	(Pal_SYZCyc2).l,a0
-		lea	($FFFFFB76).w,a1
-		move.w	(a0,d1.w),(a1)
-		move.w	2(a0,d1.w),4(a1)
+PalCycle_CNZ:
+	subq.w	#1,($FFFFF634).w
+	bpl.w	PalCycle_SY3
+	move.w	#7,($FFFFF634).w
+	lea	(word_1F8E).l,a0
+	move.w	($FFFFF632).w,d0
+	addq.w	#2,($FFFFF632).w
+	cmpi.w	#6,($FFFFF632).w
+	bcs.s	PalCycle_SY1
+	move.w	#0,($FFFFF632).w
+PalCycle_SY1:
+	lea	(a0,d0.w),a0
+	lea	(Normal_palette).w,a1
+	move.w	0(a0),$4A(a1)
+	move.w	6(a0),$4C(a1)
+	move.w	$C(a0),$4E(a1)
+	move.w	$12(a0),$56(a1)
+	move.w	$18(a0),$58(a1)
+	move.w	$1E(a0),$5A(a1)
+	lea	(word_1FB2).l,a0
+	lea	(a0,d0.w),a0
+	move.w	0(a0),$64(a1)
+	move.w	6(a0),$66(a1)
+	move.w	$C(a0),$68(a1)
+	lea	(word_1FC4).l,a0
+	move.w	($FFFFF650).w,d0
+	addq.w	#2,($FFFFF650).w
+	cmpi.w	#$24,($FFFFF650).w
+	bcs.s	PalCycle_SY2
+	move.w	#0,($FFFFF650).w
+PalCycle_SY2:
+	lea	($FFFFFB60+$12).w,a1
+	move.w	4(a0,d0.w),(a1)+
+	move.w	2(a0,d0.w),(a1)+
+	move.w	(a0,d0.w),(a1)+
+PalCycle_SY3:
+	tst.b	(Current_Boss_ID).w
+	beq.w	return_1D14
+	subq.w	#1,($FFFFF666).w
+	bpl.w	return_1D14
+	move.w	#3,($FFFFF666).w
+	move.w	($FFFFF652).w,d0
+	addq.w	#2,($FFFFF652).w
+	cmpi.w	#6,($FFFFF652).w
+	bcs.s	PalCycle_SY4
+	move.w	#0,($FFFFF652).w
+PalCycle_SY4:
+	lea	(word_1FEC).l,a0
+	lea	(a0,d0.w),a0
+	lea	(Normal_palette).w,a1
+	move.w	0(a0),$24(a1)
+	move.w	6(a0),$26(a1)
+	move.w	$C(a0),$28(a1)
+	lea	(word_1FFE).l,a0
+	move.w	($FFFFF654).w,d0
+	addq.w	#2,($FFFFF654).w
+	cmpi.w	#$14,($FFFFF654).w
+	bcs.s	PalCycle_SY5
+	move.w	#0,($FFFFF654).w
+PalCycle_SY5:
+	move.w	(a0,d0.w),$3C(a1)
+	lea	(word_2012).l,a0
+	move.w	($FFFFF656).w,d0
+	addq.w	#2,($FFFFF656).w
+	andi.w	#$E,($FFFFF656).w
+	move.w	(a0,d0.w),$3E(a1)
 
-locret_1AC6:
-		rts	
+return_1D14:
+	rts
 ; End of function PalCycle_SYZ
 
 
@@ -3295,6 +3351,12 @@ Pal_SBZCyc8:	incbin	pallet\c_sbz_8.bin
 Pal_SBZCyc9:	incbin	pallet\c_sbz_9.bin
 Pal_SBZCyc10:	incbin	pallet\c_sbz_10.bin
 Pal_ENDCyc:	incbin	pallet\c_end.bin
+word_1F8E: BINCLUDE "art/palettes/CNZ Cycle 1.bin"; Casino Night Cycles 1 & 2
+word_1FB2: BINCLUDE "art/palettes/CNZ Cycle 3.bin"; Casino Night Cycle 3
+word_1FC4: BINCLUDE "art/palettes/CNZ Cycle 4.bin"; Casino Night Cycle 4
+word_1FEC: BINCLUDE "art/palettes/unk_1FEC.bin"; Unknown palette
+word_1FFE: BINCLUDE "art/palettes/unk_1FFE.bin"; Unknown palette
+word_2012: BINCLUDE "art/palettes/unk_2012.bin"; Unknown palette
 
 ; ---------------------------------------------------------------------------
 ; Original Pallet Cycling data
@@ -5249,12 +5311,12 @@ LevSel_Down:
 LevSel_Refresh:
 		move.w	d0,($FFFFFFA8).w ; set new selection
 		jsr	LevSelTextLoad	; refresh text
-		rts	
+		rts
 ; ===========================================================================
 
 LevSel_SndTest:				; XREF: LevSelControls
 		cmpi.w	#$14,($FFFFFFA8).w ; is	item $14 selected?
-		bne.s	LevSel_NoMove	; if not, branch		
+		bne.s	LevSel_NoMove	; if not, branch
 		move.b	($FFFFF605).w,d1
 		andi.b	#button_right_mask|button_left_mask|button_A_mask|button_B_mask,d1		; is up/down pressed and held?
 		bne.s	LevSel_LRAB	; if yes, branch
@@ -5264,7 +5326,7 @@ LevSel_SndTest:				; XREF: LevSelControls
 LevSel_LRAB:
 		move.w	#$B,($FFFFFF80).w ; reset time delay
 		move.b	($FFFFF604).w,d1
-		andi.b	#button_right_mask|button_left_mask|button_A_mask|button_B_mask,d1		; is up/down pressed?		
+		andi.b	#button_right_mask|button_left_mask|button_A_mask|button_B_mask,d1		; is up/down pressed?
 		beq.s	LevSel_NoMove	; if not, branch
 		move.w	($FFFFFF84).w,d0
 		btst	#6,d1		; is A pressed?
@@ -5474,7 +5536,9 @@ Sound_Select:
 	rts
 
 Sound_Select_Options:
+        stopz80
 	move.b	#$5B,($A01C0B).l
+	startz80
 	rts
 ; ---------------------------------------------------------------------------
 ; Level
@@ -5705,7 +5769,7 @@ loc_3946:
                 move.w  #$00FF, D1
 Offset_0x0040EC:
                 move.l  D0, (A1)+
-                dbra    D1, Offset_0x0040EC		
+                dbra    D1, Offset_0x0040EC
 		bset	#2,($FFFFF754).w
 		jsr	LoadZoneTiles
 		jsr	MainLoadBlockLoad ; load block mappings	and pallets
@@ -5755,10 +5819,7 @@ Level_LoadObj:
 
 loc_39E8:
 		move.b	d0,($FFFFFE1A).w
-		move.b	d0,($FFFFFE2C).w ; clear shield
-		move.b	d0,($FFFFFE2D).w ; clear invincibility
-		move.b	d0,($FFFFFE2E).w ; clear speed shoes
-		move.b	d0,($FFFFFE2F).w
+		move.b	d0,(Maincharacter+status_secondary).w ; clear speed shoes
 		move.w	d0,($FFFFFE08).w
 		move.w	d0,($FFFFFE02).w
 		move.w	d0,($FFFFFE04).w
@@ -5837,11 +5898,12 @@ Level_ClrCardArt:
 		moveq	#2,d0
 		jsr	(LoadPLC).l	; load explosion patterns
 		jsr	(LoadAnimalPLC).l ; load animal patterns
-		move.b	#1,($FFFFFF7B).w
+;		move.b	#1,($FFFFFF7B).w
 Level_StartGame:
 	if HUDCentiseconds=1	;Mercury HUD Centiseconds
 		move.b	#1,(f_timecount).w ; update time counter
 	endc	;end HUD Centiseconds
+;	move.b	#1,($FFFFFE2C).w
 		bclr	#7,($FFFFF600).w ; subtract 80 from screen mode
 	;	move.b   #1,($FFFFFE1E).w   ; update time counter
 
@@ -7842,10 +7904,8 @@ End_LoadSonic:
 		move.w	d0,($FFFFFE20).w
 		move.l	d0,($FFFFFE22).w
 		move.b	d0,($FFFFFE1B).w
-		move.b	d0,($FFFFFE2C).w
-		move.b	d0,($FFFFFE2D).w
-		move.b	d0,($FFFFFE2E).w
-		move.b	d0,($FFFFFE2F).w
+
+		move.b	d0,(Maincharacter+status_secondary).w
 		move.w	d0,($FFFFFE08).w
 		move.w	d0,($FFFFFE02).w
 		move.w	d0,($FFFFFE04).w
@@ -8900,15 +8960,10 @@ BgScroll_SLZ:				; XREF: BgScroll_Index
 ; ===========================================================================
  
 BgScroll_SYZ:				; XREF: BgScroll_Index
-		asl.l	#4,d0
-		move.l	d0,d2
-		asl.l	#1,d0
-		add.l	d2,d0
-		asr.l	#8,d0
-		addq.w	#1,d0
-		move.w	d0,($FFFFF70C).w
-		clr.l	($FFFFF708).w
-		rts	
+	clr.l	(Camera_BG_X_pos).w
+	clr.l	(Camera_BG_Y_pos).w
+	clr.l	($FFFFF72C).w
+	rts
 ; ===========================================================================
  
 BgScroll_SBZ:				; XREF: BgScroll_Index
@@ -8975,8 +9030,8 @@ loc_628E:
 		beq.s	DLE_NoChg
 		cmpi.b	#$10,(Game_Mode).w	;exit if in a Special Stage
 		beq.s	DLE_NoChg
-;		move.l	(Camera_X_pos).w,($FFFFFFC4).w
-;		move.l	(Camera_Y_pos).w,($FFFFFFC8).w
+;		move.l	(Camera_X_pos).w,($FFFFFE2C).w
+;		move.l	(Camera_Y_pos).w,($FFFFFFC4).w
 		moveq	#0,d0
 		move.b	($FFFFFE10).w,d0
 		add.w	d0,d0
@@ -9365,79 +9420,108 @@ Deform_All_2:
  
  
 Deform_SYZ:
-		move.w	($FFFFF73C).w,d5
-		ext.l	d5
-		asl.l	#4,d5
-		move.l	d5,d1
-		asl.l	#1,d5
-		add.l	d1,d5
-		bsr.w	ScrollBlock2
-		move.w	($FFFFF70C).w,($FFFFF618).w
-		lea	($FFFFA800).w,a1
-		move.w	($FFFFF700).w,d2
-		neg.w	d2
-		move.w	d2,d0
-		asr.w	#3,d0
-		sub.w	d2,d0
-		ext.l	d0
-		asl.l	#3,d0
-		divs.w	#8,d0
-		ext.l	d0
-		asl.l	#4,d0
-		asl.l	#8,d0
-		moveq	#0,d3
-		move.w	d2,d3
-		asr.w	#1,d3
-		move.w	#7,d1
- 
-Deform_SYZ_1:				; XREF: Deform_SYZ
-		move.w	d3,(a1)+
-		swap	d3
-		add.l	d0,d3
-		swap	d3
-		dbf	d1,Deform_SYZ_1
-		move.w	d2,d0
-		asr.w	#3,d0
-		move.w	#4,d1
- 
-Deform_SYZ_2:				; XREF: Deform_SYZ
-		move.w	d0,(a1)+
-		dbf	d1,Deform_SYZ_2
-		move.w	d2,d0
-		asr.w	#2,d0
-		move.w	#5,d1
- 
-Deform_SYZ_3:				; XREF: Deform_SYZ
-		move.w	d0,(a1)+
-		dbf	d1,Deform_SYZ_3
-		move.w	d2,d0
-		move.w	d2,d1
-		asr.w	#1,d1
-		sub.w	d1,d0
-		ext.l	d0
-		asl.l	#4,d0
-		divs.w	#$E,d0
-		ext.l	d0
-		asl.l	#4,d0
-		asl.l	#8,d0
-		moveq	#0,d3
-		move.w	d2,d3
-		asr.w	#1,d3
-		move.w	#$D,d1
- 
-Deform_SYZ_4:				; XREF: Deform_SYZ
-		move.w	d3,(a1)+
-		swap	d3
-		add.l	d0,d3
-		swap	d3
-		dbf	d1,Deform_SYZ_4
-		lea	($FFFFA800).w,a2
-		move.w	($FFFFF70C).w,d0
-		move.w	d0,d2
-		andi.w	#$1F0,d0
-		lsr.w	#3,d0
-		lea	(a2,d0.w),a2
-		bra.w	Deform_All
+	move.w	(Camera_Y_pos).w,d0
+	lsr.w	#6,d0
+	move.w	d0,(Camera_BG_Y_pos).w
+	move.w	(Camera_BG_Y_pos).w,(Vscroll_Factor+2).w
+	move.w	(Camera_X_pos).w,d2
+	bsr.w	sub_D160
+	lea	(byte_D156).l,a3
+	lea	($FFFFA800).w,a2
+	lea	(Horiz_Scroll_Buf).w,a1
+	move.w	(Camera_BG_Y_pos).w,d1
+	moveq	#0,d0
+
+loc_D0FA:
+	move.b	(a3)+,d0
+	addq.w	#2,a2
+	sub.w	d0,d1
+	bcc.s	loc_D0FA
+	neg.w	d1
+	subq.w	#2,a2
+	move.w	#$DF,d2
+	move.w	(Camera_X_pos).w,d0
+	neg.w	d0
+	swap	d0
+	move.w	(a2)+,d0
+	neg.w	d0
+
+loc_D116:
+	move.l	d0,(a1)+
+	subq.w	#1,d1
+	bne.s	loc_D124
+
+loc_D11C:
+	move.w	(a2)+,d0
+	neg.w	d0
+	move.b	(a3)+,d1
+	beq.s	loc_D12A
+
+loc_D124:
+	dbf	d2,loc_D116
+	rts
+; ===========================================================================
+
+loc_D12A:
+	move.w	#$F,d1
+	move.w	d0,d3
+	move.b	(Vint_runcount+3).w,d0
+	lsr.w	#3,d0
+	neg.w	d0
+	andi.w	#$1F,d0
+	lea	DLZ_WaveFG(pc),a4
+	lea	(a4,d0.w),a4
+
+loc_D12A_2:
+	move.b	(a4)+,d0
+	ext.w	d0
+	add.w	d3,d0
+	move.l	d0,(a1)+
+	dbf	d1,loc_D12A_2
+
+	subi.w	#$10,d2
+	bra.s	loc_D11C
+; ===========================================================================
+byte_D156:
+	dc.b $10
+	dc.b $10	; 1
+	dc.b $10	; 2
+	dc.b $10	; 3
+	dc.b $10	; 4
+	dc.b $10	; 5
+	dc.b $10	; 6
+	dc.b $10	; 7
+	dc.b   0	; 8
+	dc.b $F0	; 9
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+
+sub_D160:
+	lea	($FFFFA800).w,a1
+	move.w	d2,d0
+	asr.w	#3,d0
+	sub.w	d2,d0
+	ext.l	d0
+	asl.l	#5,d0
+	asl.l	#8,d0
+	moveq	#0,d3
+	move.w	d2,d3
+	move.w	#6,d1
+
+loc_D178:
+	move.w	d3,(a1)+
+	swap	d3
+	add.l	d0,d3
+	swap	d3
+	dbf	d1,loc_D178
+	move.w	d2,d0
+	asr.w	#3,d0
+	move.w	d0,4(a1)
+	asr.w	#1,d0
+	move.w	d0,(a1)+
+	move.w	d0,(a1)+
+	rts
 ; End of function Deform_SYZ
  
  
@@ -11541,84 +11625,97 @@ Resize_SLZ3end:
 ; ---------------------------------------------------------------------------
 
 Resize_SYZ:				; XREF: Resize_Index
-		moveq	#0,d0
-		move.b	($FFFFFE11).w,d0
-		add.w	d0,d0
-		move.w	Resize_SYZx(pc,d0.w),d0
-		jmp	Resize_SYZx(pc,d0.w)
-; ===========================================================================
-Resize_SYZx:	dc.w Resize_SYZ1-Resize_SYZx
-		dc.w Resize_SYZ2-Resize_SYZx
-		dc.w Resize_SYZ3-Resize_SYZx
+	jsr	(SlotMachine).l
+	tst.b	(Current_Act).w
+	bne.s	loc_F278
+	rts
 ; ===========================================================================
 
-Resize_SYZ1:
-		rts	
+loc_F278:
+	moveq	#0,d0
+	move.b	($FFFFF742).w,d0
+	move.w	off_F286(pc,d0.w),d0
+	jmp	off_F286(pc,d0.w)
+; ===========================================================================
+off_F286:
+	dc.w loc_F28E-off_F286
+	dc.w loc_F2CE-off_F286	; 1
+	dc.w loc_F318_2-off_F286	; 2
+	dc.w loc_F350-off_F286	; 3
 ; ===========================================================================
 
-Resize_SYZ2:
-		move.w	#$520,($FFFFF726).w
-		cmpi.w	#$25A0,($FFFFF700).w
-		bcs.s	locret_71A2
-		move.w	#$420,($FFFFF726).w
-		cmpi.w	#$4D0,($FFFFD00C).w
-		bcs.s	locret_71A2
-		move.w	#$520,($FFFFF726).w
+loc_F28E:
+;	tst.w	(Two_player_mode).w
+;	bne.s	loc_F2C0
+	cmpi.w	#$27C0,(Camera_X_pos).w
+	bcs.s	return_F2BE
+	move.w	(Camera_X_pos).w,(Camera_Min_X_pos).w
+;	move.w	(Camera_X_pos).w,(Tails_Min_X_pos).w
+	move.w	#$62E,(Camera_Max_Y_pos).w
+;	move.w	#$62E,(Tails_Max_Y_pos).w
+	move.b	#-7,($FFFF8C54).w
+	addq.b	#2,($FFFFF742).w
 
-locret_71A2:
-		rts	
+return_F2BE:
+	rts
 ; ===========================================================================
 
-Resize_SYZ3:
-		moveq	#0,d0
-		move.b	($FFFFF742).w,d0
-		move.w	off_71B2(pc,d0.w),d0
-		jmp	off_71B2(pc,d0.w)
-; ===========================================================================
-off_71B2:	dc.w Resize_SYZ3main-off_71B2
-		dc.w Resize_SYZ3boss-off_71B2
-		dc.w Resize_SYZ3end-off_71B2
-; ===========================================================================
 
-Resize_SYZ3main:
-		cmpi.w	#$2AC0,($FFFFF700).w
-		bcs.s	locret_71CE
-		jsr	SingleObjLoad
-		bne.s	locret_71CE
-		move.b	#$76,(a1)	; load blocks that boss	picks up
-		addq.b	#2,($FFFFF742).w
+loc_F2CE:
+	cmpi.w	#$2890,(Camera_X_pos).w
+	bcs.s	return_F316
+	move.b	#-7,($FFFF8C50).w
+	move.w	#$2860,(Camera_Min_X_pos).w
+	move.w	#$28E0,(Camera_Max_X_pos).w
+;	move.w	#$2860,(Tails_Min_X_pos).w
+;	move.w	#$28E0,(Tails_Max_X_pos).w
+	addq.b	#2,(Dynamic_Resize_Routine).w
+	move.w	#$F9,d0
+	jsr		PlaySound
+	clr.b	($FFFFF73A).w
+	move.b	#6,($FFFFF742).w
+	moveq	#$2D,d0
+	bsr.w	JmpTo2_LoadPLC
+	moveq	#$1A,d0
+	jsr		PalLoad2
 
-locret_71CE:
-		rts	
-; ===========================================================================
-
-Resize_SYZ3boss:
-		cmpi.w	#$2C00,($FFFFF700).w
-		bcs.s	locret_7200
-		move.w	#$4CC,($FFFFF726).w
-		jsr	SingleObjLoad
-		bne.s	loc_71EC
-		move.b	#$75,(a1)	; load SYZ boss	object
-		addq.b	#2,($FFFFF742).w
-
-loc_71EC:
-		move.w	#$0E,d0
-		jsr	JmpTo_PlaySound	; play boss music
-		move.b	#1,($FFFFF7AA).w ; lock	screen
-		moveq	#$11,d0
-		jmp	LoadPLC		; load boss patterns
-		
-JmpTo_PlaySound:
-	jmp	(PlaySound).l
+return_F316:
+	rts
 ; ===========================================================================
 
-locret_7200:
-		rts	
+loc_F318_2:
+	cmpi.w	#$4E0,(Camera_Y_pos).w
+	bcs.s	loc_F318_3
+	move.w	#$4E0,(Camera_Min_Y_pos).w
+	move.w	#$4E0,($FFFFEEFC).w
+loc_F318_3:
+	addq.b	#1,($FFFFF73A).w
+	cmpi.b	#$5A,($FFFFF73A).w
+	bcs.s	return_F34E
+	jsr		SingleObjLoad
+	bne.s	loc_F318_4
+	nop
+;	move.b	#$51,(a1) ; load obj51 no boss atm
+loc_F318_4:
+	addq.b	#2,($FFFFF742).w
+	move.w	#$93,d0
+	jsr	PlaySound
+
+return_F34E:
+	rts
 ; ===========================================================================
 
-Resize_SYZ3end:
-		move.w	($FFFFF700).w,($FFFFF728).w
-		rts	
+loc_F350:
+	cmpi.w	#$2A00,(Camera_X_pos).w
+	bcs.s	return_F376
+	move.w	#$5D0,(Camera_Max_Y_pos).w
+;	move.w	#$5D0,(Tails_Max_Y_pos).w
+	move.w	(Camera_X_pos).w,(Camera_Min_X_pos).w
+;	move.w	(Camera_Max_X_pos).w,(Tails_Max_X_pos).w
+;	move.w	(Camera_X_pos).w,(Tails_Min_X_pos).w
+
+return_F376:
+	rts
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Scrap	Brain Zone dynamic screen resizing
@@ -11829,7 +11926,7 @@ Bri_Index:	dc.w 	Bri_Main-Bri_Index
  			dc.w	Bri_Delete-Bri_Index
  			dc.w	Bri_Delete-Bri_Index
 		 	dc.w	Bri_Display-Bri_Index
-		 	dc.w	Bri_Collapse-Bri_Index
+;		 	dc.w	Bri_Collapse-Bri_Index
 ; ===========================================================================
 
 Bri_Main:	; Routine 0
@@ -11962,16 +12059,6 @@ Bri_Display:
 ; ===========================================================================
 
 Bri_Platform:	; Routine 4
-		cmpi.b	#$23,anim(a0) 		; is Sonic stomping?
-		bne.s	@bend
-		move.b	#$C,routine(a0)		; go to collapsing routine
-		lea	(v_player).w,a1
-		bclr	#3,status(a1)
-		bclr	#3,status(a0)
-		move.b	#$23,anim(a1) 	
-		move.w	y_vel(a0),y_vel(a1) 		; restore sonic's y speed		
-		bra.w	Bri_Collapse
-	@bend:	
 		bsr.w	Bri_Bend
 		bsr.s	Bri_WalkOff
 	;	bsr.w	DisplaySprite
@@ -12157,38 +12244,6 @@ PlatformObj_Bridge:
 ; End of function Bri_Solid
 
 ; ===========================================================================
-Bri_Collapse:
-	movea.l	Obj11_child1(a0),a1	
-	lea	sub2_y_pos(a1),a2	; load first childsprite y pos
-	lea	(Bri_Piece_Speed).l,a3	; load peice speeds
-	moveq	#8-1,d1			; move first 8 childsprites
-@child1_yfall:
-	move.w	(a3)+,d0		; add to childsprite y pos
-	add.w	d0,(a2)
-	adda.l	#6,a2			; advance to next piece
-	dbf	d1,@child1_yfall
-
-	moveq	#0,d1
-	move.b	subtype(a0),d1	; retrieve subtype
-	subq.w	#8,d1
-	bls.s	@finish			; branch, if subtype <= 8 (bridge has no more than 8 logs)
-		
-	movea.l	Obj11_child2(a0),a1	
-	lea	sub2_y_pos(a1),a2	; load first childsprite y pos
-@child2_yfall:
-	move.w	(a3)+,d0		; add to childsprite y pos
-	add.w	d0,(a2)
-	adda.l	#6,a2			; advance to next piece
-	dbf	d1,@child2_yfall
-
-@finish:
-		bra.w	Bri_ChkDel
-
-
-
-Bri_Piece_Speed:
-	dc.w	$03,$02,$05,$04,$03,$05,$02,$04,$06,$05,$02,$03,$04,$02,$05,$02
-	even
 
 ; ---------------------------------------------------------------------------
 ; Platform subroutine
@@ -12565,7 +12620,7 @@ MvSonic2:
 		move.w	d0,$C(a1)
 		sub.w	8(a0),d2
 		sub.w	d2,8(a1)
-		tst.b	($FFFFFE2C).w     ; does Sonic have a shield?
+		btst	#0,status_secondary(a1)     ; does Sonic have a shield?
 		beq.s	locret_7B62       ; if not, branch
 		move.w	d0,($FFFFD180+$C).w   ; apply change to Shield's Y-Position
 		sub.w	d2,($FFFFD180+8).w   ; apply change to Shield's X-Position
@@ -13730,7 +13785,8 @@ loc_854E:
 		move.w	d0,$C(a1)
 		sub.w	8(a0),d2
 		sub.w	d2,8(a1)
-		tst.b	($FFFFFE2C).w     ; does Sonic have a shield?
+
+		btst	#0,status_secondary(a1)    ; does Sonic have a shield?
 		beq.s	locret_856E       ; if not, branch
 		move.w	d0,($FFFFD180+$C).w   ; apply change to Shield's Y-Position
 		sub.w	d2,($FFFFD180+8).w   ; apply change to Shield's X-Position
@@ -14793,7 +14849,7 @@ sub_9404:
 Obj29:					; XREF: Obj_Index
 		move.l	#Unc_Points,d1			        ; Call for Regular Shield Art
 		move.w	#$ABC0,d2			        ; Load Art from this location (VRAM location*20)
-		tst.b	($FFFFFE2D).w
+		btst	#1,(Maincharacter+status_secondary).w
 		beq.w	nextloc
 		move.w	#$A820,d2			        ; Load Art from this location (VRAM location*20)
 								; In this case, VRAM = $541*20
@@ -14814,7 +14870,7 @@ Obj29_Main:				; XREF: Obj29_Index
 		addq.b	#2,$24(a0)
 		move.l	#Map_obj29,4(a0)
 		move.w	#$255E,2(a0)
-		tst.b	($FFFFFE2D).w
+		btst	#1,(Maincharacter+status_secondary).w
 		beq.w	nextloc2
 		move.w	#$2541,2(a0)
 nextloc2:
@@ -14895,7 +14951,7 @@ Obj1F_Action:				; XREF: Obj1F_Index
 		jsr	Obj1F_Index2(pc,d1.w)
 		lea	(Ani_obj1F).l,a1
 		jsr	AnimateSprite
-		bra.w	MarkObjGone
+		jmp	MarkObjGone
 ; ===========================================================================
 Obj1F_Index2:	dc.w Obj1F_WaitFire-Obj1F_Index2
 		dc.w Obj1F_WalkOnFloor-Obj1F_Index2
@@ -15779,7 +15835,7 @@ Obj4B_Collect:				; XREF: Obj4B_Index
 		bset	#0,1(a1)	; reverse flash	object
 
 Obj4B_PlaySnd:
-		move.w	#$C3,d0
+		move.w	#$B3,d0
 		jsr	(PlaySound_Special).l ;	play giant ring	sound
 		bra.s	Obj4B_Animate
 ; ===========================================================================
@@ -15836,18 +15892,18 @@ Obj7C_Collect:				; XREF: Obj7C_ChkDel
 		move.b	#6,routine(a1)	; delete giant ring object (Obj4B)
 		move.b	#$1C,(MainCharacter+anim).w ; make Sonic	invisible
 		move.b	#1,($FFFFF7CD).w ; stop	Sonic getting bonuses
-		clr.b	($FFFFFE2D).w	; remove invincibility
-		clr.b	($FFFFFE2C).w	; remove shield
+		clr.b   (MainCharacter+status_secondary).w
+
 
 locret_9F76:
-		rts	
+		rts
 ; ===========================================================================
 
 Obj7C_End:				; XREF: Obj7C_Collect
 		addq.b	#2,routine(a0)
 		move.w	#0,($FFFFD000).w ; remove Sonic	object
 		addq.l	#4,sp
-		rts	
+		rts
 ; End of function Obj7C_Collect
 
 ; ===========================================================================
@@ -16109,7 +16165,7 @@ loc_B0AC:				; CODE XREF: sub_B098+4j
 		moveq	#0,d0
 		move.b	$1C(a0),d0
 		cmpi.b	#9,$1C(a0)	; this is to avoid address errors
-		ble.s	loc_B0AC_2	
+		ble.s	loc_B0AC_2
 		move.b	#9,d0
 loc_B0AC_2:
 		add.w	d0,d0
@@ -16161,8 +16217,9 @@ Obj2E_ChkShoes:
 ;		addq.w	#1,(a2)
 		tst.b	(Super_Sonic_flag).w
 		bne.w	Obj2E_NoMusic
-		move.b	#1,($FFFFFE2E).w	; speed up the	BG music
-		move.b	#$96,(MainCharacter+speedshoes_time).w	; time limit for the power-up
+
+		bset	#2,(Maincharacter+status_secondary).w	; speed up the	BG music
+		move.b	#$96,(Maincharacter+speedshoes_time).w	; time limit for the power-up
 	movem.l a0-a2,-(sp)		; Move a0, a1 and a2 onto stack
 	lea	(MainCharacter).w,a0	; Load Sonic to a0
 	lea	(Sonic_top_speed).w,a2	; Load Sonic_top_speed into a2
@@ -16181,7 +16238,7 @@ Obj2E_ChkShield:
 ;		jsr	(LoadPLC).l	; load Super Sonic's stars patterns
 ;Obj2E_ChkShield_Cont:
 ;		addq.w	#1,(a2)
-		move.b	#1,($FFFFFE2C).w ; give	Sonic a	shield
+		bset	#0,(Maincharacter+status_secondary).w ; give	Sonic a	shield
 		move.b	#$2,($FFFFD180).w ; load shield object	($38)
 		move.w	#$71,d0
 		jmp	(PlaySound).l	; play shield sound
@@ -16193,8 +16250,9 @@ Obj2E_ChkInvinc:
 		bne.w	Obj2E_NoMusic		; if yes, branch
 		tst.b	(Update_HUD_timer).w	; has Sonic reached the end of the act?
 		beq.w	Obj2E_NoMusic		; if yes, branch
-		move.b	#1,($FFFFFE2D).w ; make	Sonic invincible
-		move.b	#$96,(MainCharacter+invincibility_time).w ; time limit for the power-up
+
+		bset	#1,(Maincharacter+status_secondary).w ; make	Sonic invincible
+		move.b	#$96,(Maincharacter+invincibility_time).w ; time limit for the power-up
 		move.b	#$38,($FFFFD200).w ; load stars	object ($3801)
 ;		move.b	#1,($FFFFD21C).w
 ;		move.b	#$38,($FFFFD240).w ; load stars	object ($3802)
@@ -16220,7 +16278,7 @@ Obj2E_NoMusic:
 		
 Obj2E_NoInvcMusic:
 		move.b	#2,($FFFFFF88).w
-		rts	
+		rts
 ; ===========================================================================
 
 Obj2E_ChkRings:
@@ -16303,7 +16361,7 @@ locsup:
 		move.w	#$800,($FFFFF760).w
 		move.w	#$18,($FFFFF762).w
 		move.w	#$C0,($FFFFF764).w
-		move.b	#$22,(MainCharacter+anim).w
+		move.b	#$22,(Maincharacter+anim).w
 		jsr	Super_and_Invincibility_Stars_Jmp
 		move.b	#$8E,($FFFFD200).w	; load Obj7E (super sonic stars object) at $FFFFD040
 ;	moveq	#$23,d0
@@ -16312,7 +16370,7 @@ locsup:
 		bne.s	loc_864F8
 		move.b	#0,($FFFFFE19).w
 		move.b	#1,($FFFFF667).w
-		move.b	#$29,(MainCharacter+anim).w
+		move.b	#$29,(Maincharacter+anim).w
 		move.w	#$800,($FFFFFEC0).w
 		move.w	#$18,($FFFFFEC2).w
 		move.w	#$C0,($FFFFFEC4).w
@@ -16322,7 +16380,7 @@ locsup:
 
 loc_864F8:
 		bcc.s	loc_86524
-		move.l	#Map_SuperSonic,(MainCharacter+mappings).w
+		move.l	#Map_SuperSonic,(Maincharacter+mappings).w
 ;		tst.w	(Debug_placement_mode).w
 ;		beq.s	loc_864F8_2
 ;		move.l	(MainCharacter+mappings).w,($FFFFFF7A).w
@@ -16341,8 +16399,8 @@ loc_86524:
 loc_8652C:
 
 		move.b	#$1,($FFFFF7C8).w
-		move.b	#0,(MainCharacter+invincibility_time).w
-		move.b	#1,($FFFFFE2D).w	; make Sonic invincible
+		move.b	#0,(Maincharacter+invincibility_time).w
+		bset	#1,(Maincharacter+status_secondary).w	; make Sonic invincible
 ;		moveq	#$26,d0
 ;		jsr	(LoadPLC).l	; load Super Sonic's life counter patterns
 		move.w	#$46,d0
@@ -18609,7 +18667,7 @@ loc_13C6E:
 	lea	(a0),a1
 	lea	Title_Cards_Settings(pc),a2
 	moveq	#5,d1
-
+;	illegal
 @obj34loop:	move.b	#$34,0(a1) ; load obj34
 	move.b	(a2)+,routine(a1)
 	move.l	#Title_Cards_Mappings,mappings(a1)
@@ -18954,6 +19012,10 @@ Title_Cards_Mappings:
 ; ---------------------------------------------------------------------------
 
 Obj34:					; XREF: Obj_Index
+		cmpi.b	#7,($FFFFFE10).w ; check if level is in the new zones
+		bne.s	Obj34_NoCutscene
+		rts
+Obj34_NoCutscene:
 		moveq	#0,d0
 		move.b	routine(a0),d0
 		move.w	Obj34_Index(pc,d0.w),d1
@@ -18993,6 +19055,7 @@ Obj34_LoadConfig:
 		moveq	#3,d1
 
 Obj34_Loop:
+
 		move.b	#$34,0(a1)
 		move.w	(a3),8(a1)	; load start x-position
 		move.w	(a3)+,$32(a1)	; load finish x-position (same as start)
@@ -19889,7 +19952,7 @@ Map_obj7F:
 ; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
 
 Touch_ChkHurtSpikes:
-	tst.b	($FFFFFE2D).w	; is Sonic invincible?
+	btst	#1,status_secondary(a1)	; is Sonic invincible?
 	bne.s	return_15AC4	; if yes, branch
 	tst.b	$30(a1)	; is Sonic invulnerable?
 	bne.s	return_15AC4	; if yes, branch
@@ -19998,7 +20061,7 @@ JmpTo2_NemDec
 	jmp	(NemDec).l
 ; ===========================================================================
 
-JmpTo_NemDecToRAM 
+JmpTo_NemDecToRAM
 	jmp	(NemDec_RAM).l
 ; End of function LoadTitleCard0
 
@@ -20352,10 +20415,6 @@ Obj3C_Solid:				; XREF: Obj3C_Index
 		move.w	#$20,d2	; ' '
 		lea	(MainCharacter).l,a1
 		move.w	$10(a1),$30(a0)
-		cmpi.b	#2,($FFFFFE2C).w
-		bne.s	Obj3C_ChkRoll
-		cmpi.b	#1,($FFD19C).l
-		beq.s	Obj3C_Solid2
 
 Obj3C_ChkRoll:				; XREF: Obj3C_Solid
 		tst.b	(Debug_Placement_Mode).w
@@ -20697,7 +20756,7 @@ Super_and_Invincibility_Stars:
 		lea		($FFFFD200).w,a0	; stars object ($3801 and $8F)
 		jsr		DeleteObject		; delete stars
 		move.b	#0,($FFFFD2DC).w
-		move.b	#0,($FFFFFE2E).w ; clear speed shoes
+		bclr	#2,(Maincharacter+status_secondary).w ; clear speed shoes
 		move.l	(sp)+,a0
 		rts
 ; End of function Super_and_Invincibility_Stars
@@ -20790,199 +20849,199 @@ BldSpr_ScrPos:	dc.l 0			; blank
 		dc.l $FFF708		; background x-position	1
 		dc.l $FFF718		; background x-position	2
 ; ---------------------------------------------------------------------------
-; Subroutine to	convert	mappings (etc) to proper Megadrive sprites
+; Subroutine to convert mappings (etc) to proper Megadrive sprites
 ; ---------------------------------------------------------------------------
 
-; =============== S U B	R O U T	I N E =======================================
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
 
+; sub_16604:
+BuildSprites:
+;	tst.w	(Two_player_mode).w
+;	bne.w	BuildSprites_2P
+	lea	(Sprite_Table).w,a2
+	moveq	#0,d5
+	moveq	#0,d4
+	tst.b	($FFFFFE2C).w
+	beq.s	sub_16604_2
+	bsr.w	JmpTo_loc_40804
+sub_16604_2:
+	lea	(Sprite_Table_Input).w,a4
+	moveq	#7,d7
 
-BuildSprites:					  ; ...
-		lea	($FFFFF800).w,a2
-		moveq	#0,d5
-;		moveq	#0,d4
-;		tst.b	($FFFFF711).w
-;		beq.s	loc_312EA8
-;		jsr	sub_3392AA
-;		bsr.w	sub_3133B4
+loc_16628:
+	tst.w	(a4)
+	beq.w	loc_166FA
+	moveq	#2,d6
 
-;loc_312EA8:					  ; ...
-		lea	($FFFFAC00).w,a4
-		moveq	#7,d7
+loc_16630:
+	movea.w	(a4,d6.w),a0 ; a0=object
+	tst.b	(a0)
+	beq.w	loc_166F2
+	andi.b	#$7F,render_flags(a0)
+	move.b	render_flags(a0),d0
+	move.b	d0,d4
+	cmpi.b	#2,(a0)
+	blt.s	loc_16630_2
+	btst	#6,d0
+	bne.w	BuildSprites_MultiDraw
+loc_16630_2:
+	andi.w	#$C,d0
+	beq.s	loc_166A6
+	movea.l	BldSpr_ScrPos(pc,d0.w),a1
+	moveq	#0,d0
+	move.b	width_pixels(a0),d0
+	move.w	x_pos(a0),d3
+	sub.w	(a1),d3
+	move.w	d3,d1
+	add.w	d0,d1
+	bmi.w	loc_166F2
+	move.w	d3,d1
+	sub.w	d0,d1
+	cmpi.w	#320,d1
+	bge.w	loc_166F2
+	addi.w	#$80,d3
+	btst	#4,d4
+	beq.s	loc_166B0
+	moveq	#0,d0
+	move.b	y_radius(a0),d0
+	move.w	y_pos(a0),d2
+	sub.w	4(a1),d2
+	move.w	d2,d1
+	add.w	d0,d1
+	bmi.s	loc_166F2
+	move.w	d2,d1
+	sub.w	d0,d1
+	cmpi.w	#$E0,d1
+	bge.s	loc_166F2
+	addi.w	#$80,d2
+	bra.s	loc_166CC
+; ===========================================================================
 
-loc_312EAE:					  ; ...
-		tst.w	(a4)
-		beq.w	loc_312F80
-		moveq	#2,d6
+loc_166A6:
+	move.w	objoff_A(a0),d2
+	move.w	x_pos(a0),d3
+	bra.s	loc_166CC
+; ===========================================================================
 
-loc_312EB6:					  ; ...
-		move.w	(a4,d6.w),a0
-		tst.b	(a0)
-		beq.w	loc_312F78
-		and.b	#$7F,1(a0)
-		move.b	1(a0),d0
-		move.b	d0,d4
-		cmpi.b	#2,(a0)
-		blt.s	loc_F66A
-		btst	#6,d0
-		bne.w	BuildSprites_MultiDraw
-loc_F66A:				; CODE XREF: BuildSprites+2Ej
-		and.w	#$C,d0
-		beq.s	loc_312F2C
-		movea.l	BldSpr_ScrPos(pc,d0.w),a1
-		moveq	#0,d0
-		move.b	width_pixels(a0),d0
-		move.w	8(a0),d3
-		sub.w	(a1),d3
-		move.w	d3,d1
-		add.w	d0,d1
-		bmi.w	loc_312F78
-		move.w	d3,d1
-		sub.w	d0,d1
-		cmp.w	#$140,d1
-		bge.w	loc_312F78
-		add.w	#$80,d3
-		btst	#4,d4
-		beq.s	loc_312F36
-		moveq	#0,d0
-		move.b	$16(a0),d0
-		move.w	$C(a0),d2
-		sub.w	4(a1),d2
-		move.w	d2,d1
-		add.w	d0,d1
-		bmi.s	loc_312F78
-		move.w	d2,d1
-		sub.w	d0,d1
-		cmp.w	#$E0,d1
-		bge.s	loc_312F78
-		add.w	#$80,d2
-		bra.s	loc_312F52
-; ---------------------------------------------------------------------------
+loc_166B0:
+	move.w	y_pos(a0),d2
+	sub.w	4(a1),d2
+	addi.w	#$80,d2
+	andi.w	#$7FF,d2
+	cmpi.w	#$60,d2
+	bcs.s	loc_166F2
+	cmpi.w	#$180,d2
+	bcc.s	loc_166F2
 
-loc_312F2C:					  ; ...
-		move.w	$A(a0),d2
-		move.w	8(a0),d3
-		bra.s	loc_312F52
-; ---------------------------------------------------------------------------
+loc_166CC:
+	movea.l	mappings(a0),a1
+	moveq	#0,d1
+	btst	#5,d4
+	bne.s	loc_166E8
+	move.b	mapping_frame(a0),d1
+	add.w	d1,d1					; MJ: changed from byte to word (we want more than 7F sprites)
+	adda.w	(a1,d1.w),a1
+	moveq	#$00,d1					; MJ: clear d1 (because of our byte to word change)
+	move.b	(a1)+,d1
+	subq.w	#1,d1
+	bmi.s	loc_166EC
 
-loc_312F36:					  ; ...
-		move.w	$C(a0),d2
-		sub.w	4(a1),d2
-		add.w	#$80,d2
-;		and.w	#$7FF,d2
-		cmp.w	#$60,d2
-		bcs.s	loc_312F78
-		cmp.w	#$180,d2
-		bcc.s	loc_312F78
+loc_166E8:
+	bsr.w	sub_16812
 
-loc_312F52:					  ; ...
-		movea.l	4(a0),a1
-		moveq	#0,d1
-		btst	#5,d4
-		bne.s	loc_312F6E
-		move.b	$1A(a0),d1
-		add.w	d1,d1					; MJ: changed from byte to word (we want more than 7F sprites)
-		adda.w	(a1,d1.w),a1
-		moveq	#$00,d1					; MJ: clear d1 (because of our byte to word change)
-		move.b	(a1)+,d1
-		subq.w	#1,d1
-		bmi.s	loc_312F72
+loc_166EC:
+	bset	#7,render_flags(a0)
 
-loc_312F6E:					  ; ...
-		bsr.w	sub_D750
+loc_166F2:
 
-loc_312F72:					  ; ...
-		or.b	#$80,1(a0)
+	addq.w	#2,d6
+	subq.w	#2,(a4)
+	bne.w	loc_16630
 
-loc_312F78:					  ; ...
-loc_D726:
-		addq.w	#2,d6
-		subq.w	#2,(a4)
-		bne.w	loc_312EB6
+loc_166FA:
+	lea	$80(a4),a4
+	dbf	d7,loc_16628
+	move.b	d5,($FFFFF62C).w
+	cmpi.b	#$50,d5
+	beq.s	loc_16714
+	move.l	#0,(a2)
+	rts
+; ===========================================================================
 
-loc_312F80:					  ; ...
-		lea	$80(a4),a4
-		dbf	d7,loc_312EAE
-		move.b	d5,($FFFFF62C).w
-		cmp.b	#$50,d5
-		beq.s	loc_312F9A
-		move.l	#0,(a2)
-		rts
-; ---------------------------------------------------------------------------
-
-loc_312F9A:					  ; ...
-		move.b	#0,-5(a2)
-		rts
-; ---------------------------------------------------------------------------
+loc_16714:
+	move.b	#0,-5(a2)
+	rts
+; ===========================================================================
 
 BuildSprites_MultiDraw:
-		move.l	a4,-(sp)
-		lea	($FFFFF700).w,a4
-		movea.w	2(a0),a3
-		movea.l	4(a0),a5
-		moveq	#0,d0
-		move.b	$E(a0),d0
-		move.w	8(a0),d3
-		sub.w	(a4),d3
-		move.w	d3,d1
-		add.w	d0,d1
-		bmi.w	BuildSprites_MultiDraw_NextObj
-		move.w	d3,d1
-		sub.w	d0,d1
-		cmpi.w	#$140,d1
-		bge.w	BuildSprites_MultiDraw_NextObj
-		addi.w	#$80,d3	; '?'
-		btst	#4,d4
-		beq.s	loc_F794
-		moveq	#0,d0
-		move.b	$14(a0),d0
-		move.w	$C(a0),d2
-		sub.w	4(a4),d2
-		move.w	d2,d1
-		add.w	d0,d1
-		bmi.w	BuildSprites_MultiDraw_NextObj
-		move.w	d2,d1
-		sub.w	d0,d1
-		cmpi.w	#$E0,d1	; 'a'
-		bge.w	BuildSprites_MultiDraw_NextObj
-		addi.w	#$80,d2	; '?'
-		bra.s	loc_F7B0
-; ---------------------------------------------------------------------------
+	move.l	a4,-(sp)
+	lea	(Camera_X_pos).w,a4
+	movea.w	art_tile(a0),a3
+	movea.l	mappings(a0),a5
+	moveq	#0,d0
+	move.b	objoff_E(a0),d0
+	move.w	x_pos(a0),d3
+	sub.w	(a4),d3
+	move.w	d3,d1
+	add.w	d0,d1
+	bmi.w	loc_16804
+	move.w	d3,d1
+	sub.w	d0,d1
+	cmpi.w	#320,d1
+	bge.w	loc_16804
+	addi.w	#$80,d3
+	btst	#4,d4
+	beq.s	loc_1677C
+	moveq	#0,d0
+	move.b	objoff_14(a0),d0
+	move.w	y_pos(a0),d2
+	sub.w	4(a4),d2
+	move.w	d2,d1
+	add.w	d0,d1
+	bmi.w	loc_16804
+	move.w	d2,d1
+	sub.w	d0,d1
+	cmpi.w	#$E0,d1
+	bge.w	loc_16804
+	addi.w	#$80,d2
+	bra.s	loc_16798_2
+; ===========================================================================
 
-loc_F794:				; CODE XREF: BuildSprites+138j
-		move.w	$C(a0),d2
-		sub.w	4(a4),d2
-		addi.w	#$80,d2	; '?'
-		andi.w	#$7FF,d2
-		cmpi.w	#$60,d2	; '`'
-		bcs.s	BuildSprites_MultiDraw_NextObj
-		cmpi.w	#$180,d2
-		bcc.s	BuildSprites_MultiDraw_NextObj
+loc_1677C:
+	move.w	y_pos(a0),d2
+	sub.w	4(a4),d2
+	addi.w	#$80,d2
+	andi.w	#$7FF,d2
+	cmpi.w	#$60,d2
+	bcs.s	loc_16804
+	cmpi.w	#$180,d2
+	bcc.s	loc_16804
 
-loc_F7B0:				; CODE XREF: BuildSprites+160j
-		moveq	#0,d1
-		move.b	$B(a0),d1
-		beq.s	loc_F7CE
-		add.w	d1,d1
-		movea.l	a5,a1
-		adda.w	(a1,d1.w),a1
-		move.w	(a1)+,d1
-		subq.w	#1,d1
-		bmi.s	loc_F7CE
-		move.w	d4,-(sp)
-		bsr.w	ChkDrawSprite
-		move.w	(sp)+,d4
+loc_16798_2:
+	moveq	#0,d1
+	move.b	objoff_B(a0),d1
+	beq.s	loc_167B6
+	add.w	d1,d1
+	movea.l	a5,a1
+	adda.w	(a1,d1.w),a1
+	move.w	(a1)+,d1
+	subq.w	#1,d1
+	bmi.s	loc_167B6
+	move.w	d4,-(sp)
+	bsr.w	sub_1680A
+	move.w	(sp)+,d4
 
-loc_F7CE:				; CODE XREF: BuildSprites+184j
-					; BuildSprites+192j
-		ori.b	#$80,1(a0)
-		lea	$10(a0),a6
-		moveq	#0,d0
-		move.b	$F(a0),d0
-		subq.w	#1,d0
-		bcs.s	BuildSprites_MultiDraw_NextObj
+loc_167B6:
 
-loc_F7E2:				; CODE XREF: BuildSprites+1E6j
-		swap	d0
+	ori.b	#$80,render_flags(a0)
+	lea	$10(a0),a6
+	moveq	#0,d0
+	move.b	objoff_F(a0),d0
+	subq.w	#1,d0
+	bcs.s	loc_16804
+
+loc_167CA:
+	swap	d0
 		move.w	(a6)+,d3
 		sub.w	(a4),d3
 		addi.w	#$80,d3	; '?'
@@ -20998,54 +21057,49 @@ loc_F7E2:				; CODE XREF: BuildSprites+1E6j
 		adda.w	(a1,d1.w),a1
 		move.b	(a1)+,d1
 		subq.b	#1,d1
-		bmi.s	loc_F816
-		move.w	d4,-(sp)
-		bsr.w	ChkDrawSprite
-		move.w	(sp)+,d4
+	bmi.s	loc_167FE
+	move.w	d4,-(sp)
+	bsr.w	sub_1680A
+	move.w	(sp)+,d4
 
-loc_F816:				; CODE XREF: BuildSprites+1DAj
-		swap	d0
-		dbf	d0,loc_F7E2
+loc_167FE:
+	swap	d0
+	dbf	d0,loc_167CA
 
-BuildSprites_MultiDraw_NextObj:				; CODE XREF: BuildSprites+120j
-					; BuildSprites+12Cj ...
-		movea.l	(sp)+,a4
-		bra.w	loc_D726
+loc_16804:
+
+	movea.l	(sp)+,a4
+	bra.w	loc_166F2
 ; End of function BuildSprites
 
 
-; =============== S U B	R O U T	I N E =======================================
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
 
 
-ChkDrawSprite:				; CODE XREF: BuildSprites+196p
-					; BuildSprites+1DEp
-		cmpi.b	#$50,d5	; 'P'
-		bcs.s	DrawSprite_Cont
-		rts
-; End of function ChkDrawSprite
+sub_1680A:
+
+	cmpi.b	#$50,d5
+	bcs.s	loc_1681C
+	rts
+; End of function sub_1680A
 
 
-; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
 
 
-sub_D750:				; XREF: BuildSprites
-		movea.w	2(a0),a3
-; loc_1681C:
-DrawSprite_Cont:
-		btst	#0,d4
-		bne.s	loc_D796
-		btst	#1,d4
-		bne.w	loc_D7E4
-; End of function sub_D750
-
-
-; ||||||||||||||| S U B	R O U T	I N E |||||||||||||||||||||||||||||||||||||||
-
-
+sub_16812:
+	movea.w	art_tile(a0),a3
 sub_D762:				; XREF: sub_D762; SS_ShowLayout
-		cmpi.b	#$50,d5
-		beq.s	locret_D794
-sub_D762_2:
+	cmpi.b	#$50,d5
+	bcc.s	return_16852
+
+loc_1681C:
+	btst	#0,d4
+	bne.s	loc_16854
+	btst	#1,d4
+	bne.w	loc_168B4
+sub_D762_2:				; XREF: sub_D762; SS_ShowLayout	
+loc_1682A:
 		move.b	(a1)+,d0
 		ext.w	d0
 		add.w	d2,d0
@@ -21062,26 +21116,22 @@ sub_D762_2:
 		ext.w	d0
 		add.w	d3,d0
 		andi.w	#$1FF,d0
-		bne.s	loc_D78E
-		addq.w	#1,d0
+	bne.s	loc_1684C
+	addq.w	#1,d0
 
-loc_D78E:
-		move.w	d0,(a2)+
-		dbf	d1,sub_D762
+loc_1684C:
+	move.w	d0,(a2)+
+	dbf	d1,loc_1682A
 
-locret_D794:
-		rts	
-; End of function sub_D762
-
+return_16852:
+	rts
 ; ===========================================================================
 
-loc_D796:
-		btst	#1,d4
-		bne.w	loc_D82A
+loc_16854:
+	btst	#1,d4
+	bne.w	loc_168FC
 
-loc_D79E:
-		cmpi.b	#$50,d5
-		beq.s	locret_D7E2
+loc_1685C:
 		move.b	(a1)+,d0
 		ext.w	d0
 		add.w	d2,d0
@@ -21105,20 +21155,30 @@ loc_D79E:
 		sub.w	d4,d0
 		add.w	d3,d0
 		andi.w	#$1FF,d0
-		bne.s	loc_D7DC
-		addq.w	#1,d0
+	bne.s	loc_1688C
+	addq.w	#1,d0
 
-loc_D7DC:
-		move.w	d0,(a2)+
-		dbf	d1,loc_D79E
-
-locret_D7E2:
-		rts	
+loc_1688C:
+	move.w	d0,(a2)+
+	dbf	d1,loc_1685C
+	rts
+; ===========================================================================
+; offsets for horizontally mirrored sprite pieces?
+byte_16894:
+	dc.b   8,  8,  8,  8	; 4
+	dc.b $10,$10,$10,$10	; 8
+	dc.b $18,$18,$18,$18	; 12
+	dc.b $20,$20,$20,$20	; 16
+; offsets for vertically mirrored sprite pieces?
+byte_168A4:
+	dc.b   8,$10,$18,$20	; 4
+	dc.b   8,$10,$18,$20	; 8
+	dc.b   8,$10,$18,$20	; 12
+	dc.b   8,$10,$18,$20	; 16
 ; ===========================================================================
 
-loc_D7E4:				; XREF: sub_D750
-		cmpi.b	#$50,d5
-		beq.s	locret_D828
+loc_168B4:
+
 		move.b	(a1)+,d0
 		move.b	(a1),d4
 		ext.w	d0
@@ -21142,20 +21202,24 @@ loc_D7E4:				; XREF: sub_D750
 		ext.w	d0
 		add.w	d3,d0
 		andi.w	#$1FF,d0
-		bne.s	loc_D822
-		addq.w	#1,d0
+	bne.s	loc_168E4
+	addq.w	#1,d0
 
-loc_D822:
-		move.w	d0,(a2)+
-		dbf	d1,loc_D7E4
-
-locret_D828:
-		rts	
+loc_168E4:
+	move.w	d0,(a2)+
+	dbf	d1,loc_168B4
+	rts
+; ===========================================================================
+; offsets for vertically mirrored sprite pieces?
+byte_168EC:
+	dc.b   8,$10,$18,$20	; 4
+	dc.b   8,$10,$18,$20	; 8
+	dc.b   8,$10,$18,$20	; 12
+	dc.b   8,$10,$18,$20	; 16
 ; ===========================================================================
 
-loc_D82A:
-		cmpi.b	#$50,d5
-		beq.s	locret_D87C
+loc_168FC:
+
 		move.b	(a1)+,d0
 		move.b	(a1),d4
 		ext.w	d0
@@ -21185,15 +21249,23 @@ loc_D82A:
 		sub.w	d4,d0
 		add.w	d3,d0
 		andi.w	#$1FF,d0
-		bne.s	loc_D876
-		addq.w	#1,d0
+	bne.s	loc_16936
+	addq.w	#1,d0
 
-loc_D876:
-		move.w	d0,(a2)+
-		dbf	d1,loc_D82A
+loc_16936:
+	move.w	d0,(a2)+
+	dbf	d1,loc_168FC
+	rts
+; End of function sub_16812
 
-locret_D87C:
-		rts	
+; ===========================================================================
+; offsets for horizontally mirrored sprite pieces?
+byte_1693E:
+	dc.b   8,  8,  8,  8	; 4
+	dc.b $10,$10,$10,$10	; 8
+	dc.b $18,$18,$18,$18	; 12
+	dc.b $20,$20,$20,$20	; 16
+; ===========================================================================		
 
 ; ---------------------------------------------------------------------------
 ; Subroutine to	check if an object is on the screen
@@ -21252,7 +21324,7 @@ ChkObjOnScreen2:
 
 NotOnScreen2:				; XREF: ChkObjOnScreen2
 		moveq	#1,d0
-		rts	
+		rts
 ; End of function ChkObjOnScreen2
 
 ; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
@@ -23604,6 +23676,569 @@ Obj12_ChkDel:
 Map_obj12:
 	include '_maps\obj12.asm'
 
+; ------------------------------------------------------------------------------
+; runs the slot machines in CNZ
+; ------------------------------------------------------------------------------
+
+; ||||||||||||||| S U B R O U T I N E |||||||||||||||||||||||||||||||||||||||
+
+; loc_2BF24:
+SlotMachine:
+	lea	($FFFFFF4E).w,a4
+	moveq	#0,d0
+	move.b	0(a4),d0
+	jmp	SlotMachine_JmpTable(pc,d0.w)
+; ===========================================================================
+; loc_2BF32:
+SlotMachine_JmpTable: ;;
+	bra.w	SlotMachine_Routine1
+	bra.w	SlotMachine_Routine2
+	bra.w	SlotMachine_Routine3
+	bra.w	SlotMachine_Routine4
+	bra.w	SlotMachine_Routine5
+	bra.w	SlotMachine_Routine6
+	rts
+; ===========================================================================
+; loc_2BF4C:
+SlotMachine_Routine1:
+	movea.l	a4,a1
+	moveq	#8,d0
+
+SlotMachine_Routineloop:
+	clr.w	(a1)+
+	dbf	d0,SlotMachine_Routineloop
+
+	move.b	($FFFFFE0F).w,d0
+	move.b	d0,6(a4)
+	ror.b	#3,d0
+	move.b	d0,$A(a4)
+	ror.b	#3,d0
+	move.b	d0,$E(a4)
+	move.b	#8,7(a4)
+	move.b	#8,$B(a4)
+	move.b	#8,$F(a4)
+	move.b	#8,8(a4)
+	move.b	#8,$C(a4)
+	move.b	#8,$10(a4)
+	move.b	#1,1(a4)
+	addq.b	#4,0(a4)
+	rts
+; ===========================================================================
+; loc_2BF9A:
+SlotMachine_Routine2:
+	bsr.w	loc_2C20A
+	tst.b	1(a4)
+	beq.s	loc_2BFA6
+	rts
+; ===========================================================================
+
+loc_2BFA6:
+	move.b	#$18,0(a4)
+	clr.w	8(a4)
+	clr.w	$C(a4)
+	clr.w	$10(a4)
+	rts
+; ===========================================================================
+; loc_2BFBA:
+SlotMachine_Routine3:
+	move.b	($FFFFFE0F).w,d0
+	andi.b	#7,d0
+	subq.b	#4,d0
+	addi.b	#$30,d0
+	move.b	d0,8(a4)
+	move.b	($FFFFFE0F).w,d0
+	rol.b	#4,d0
+	andi.b	#7,d0
+	subq.b	#4,d0
+	addi.b	#$30,d0
+	move.b	d0,$C(a4)
+	move.b	($FFFFFE0E).w,d0
+	andi.b	#7,d0
+	subq.b	#4,d0
+	addi.b	#$30,d0
+	move.b	d0,$10(a4)
+	move.b	#2,1(a4)
+	clr.b	3(a4)
+	clr.b	9(a4)
+	clr.b	$D(a4)
+	clr.b	$11(a4)
+	addq.b	#4,0(a4)
+	move.b	($FFFFFE0F).w,d0
+	ror.b	#3,d0
+	lea	(byte_2C3EC).l,a2
+
+loc_2C018:
+	sub.b	(a2),d0
+	bcs.s	loc_2C020
+	addq.w	#3,a2
+	bra.s	loc_2C018
+; ===========================================================================
+
+loc_2C020:
+	cmpi.b	#-1,(a2)
+	beq.s	loc_2C034
+	move.b	1(a2),4(a4)
+	move.b	2(a2),5(a4)
+	rts
+; ===========================================================================
+
+loc_2C034:
+	move.b	d0,d1
+	andi.w	#7,d1
+	lea	(byte_2C401).l,a1
+	move.b	(a1,d0.w),4(a4)
+	ror.b	#3,d0
+	move.b	d0,d1
+	andi.w	#7,d1
+	lea	(byte_2C409).l,a1
+	move.b	(a1,d1.w),d2
+	lsl.b	#4,d2
+	ror.b	#3,d0
+	andi.w	#7,d0
+	lea	(byte_2C411).l,a1
+	or.b	(a1,d0.w),d2
+	move.b	d2,5(a4)
+	rts
+; ===========================================================================
+; loc_2C070:
+SlotMachine_Routine4:
+	bsr.w	loc_2C20A
+	tst.b	1(a4)
+	beq.s	loc_2C07C
+	rts
+; ===========================================================================
+
+loc_2C07C:
+	addi.b	#$30,8(a4)
+	addi.b	#$30,$C(a4)
+	addi.b	#$30,$10(a4)
+	move.b	($FFFFFE0F).w,d0
+	andi.b	#$F,d0
+	addi.b	#$C,d0
+	move.b	d0,1(a4)
+	clr.b	2(a4)
+	addq.b	#4,0(a4)
+	rts
+; ===========================================================================
+; loc_2C0A8:
+SlotMachine_Routine5:
+	bsr.w	loc_2C20A
+	cmpi.b	#$C,9(a4)
+	bne.s	loc_2C0C6
+	cmpi.b	#$C,$D(a4)
+	bne.s	loc_2C0C6
+	cmpi.b	#$C,$11(a4)
+	beq.w	SlotMachine_Routine6
+
+loc_2C0C6:
+	moveq	#0,d0
+	move.b	3(a4),d0
+	lea	6(a4),a1
+	adda.w	d0,a1
+	lea	(byte_2C401).l,a3
+	add.w	d0,d0
+	adda.w	d0,a3
+	moveq	#0,d0
+	move.b	3(a1),d0
+	jmp	SlotMachine_Routine5_JmpTable(pc,d0.w)
+; ===========================================================================
+
+; loc_2C0E6
+SlotMachine_Routine5_JmpTable: ;;
+	bra.w	SlotMachine_Routine5_1
+	bra.w	SlotMachine_Routine5_2
+	bra.w	SlotMachine_Routine5_3
+	bra.w	SlotMachine_Routine5_4
+; ===========================================================================
+
+loc_2C0F6:
+	move.w	4(a4),d1
+	move.b	3(a4),d0
+	beq.s	loc_2C102
+	lsr.w	d0,d1
+
+loc_2C102:
+	andi.w	#7,d1
+	cmpi.b	#5,d1
+	bgt.s	loc_2C10E
+	rts
+; ===========================================================================
+
+loc_2C10E:
+	subq.b	#2,d1
+	rts
+; ===========================================================================
+
+loc_2C112:
+	move.w	#-$10,d2
+	andi.w	#$F,d1
+	move.b	3(a4),d0
+	beq.s	loc_2C124
+	lsl.w	d0,d1
+	rol.w	d0,d2
+
+loc_2C124:
+	and.w	d2,4(a4)
+	or.w	d1,4(a4)
+	andi.w	#$777,4(a4)
+	rts
+; ===========================================================================
+; loc_2C134:
+SlotMachine_Routine5_1:
+	tst.b	3(a4)
+	bne.s	loc_2C142
+	tst.b	1(a4)
+	bmi.s	loc_2C14C
+	rts
+; ===========================================================================
+
+loc_2C142:
+	cmpi.b	#8,-1(a1)
+	bge.s	loc_2C14C
+	rts
+; ===========================================================================
+
+loc_2C14C:
+	bsr.s	loc_2C0F6
+	move.w	(a1),d0
+	subi.w	#$A0,d0
+	lsr.w	#8,d0
+	andi.w	#7,d0
+	move.b	(a3,d0.w),d0
+	cmp.b	d1,d0
+	beq.s	loc_2C164
+	rts
+; ===========================================================================
+
+loc_2C164:
+	addq.b	#4,3(a1)
+	move.b	#$60,2(a1)
+	rts
+; ===========================================================================
+; loc_2C170:
+SlotMachine_Routine5_2:
+	bsr.s	loc_2C0F6
+	move.w	(a1),d0
+	addi.w	#$F0,d0
+	andi.w	#$700,d0
+	lsr.w	#8,d0
+	move.b	(a3,d0.w),d0
+	cmp.b	d0,d1
+	beq.s	loc_2C1AE
+	cmpi.b	#$20,2(a1)
+	bls.s	loc_2C194
+	subi.b	#$C,2(a1)
+
+loc_2C194:
+	cmpi.b	#$18,2(a1)
+	bgt.s	loc_2C19E
+	rts
+; ===========================================================================
+
+loc_2C19E:
+	cmpi.b	#$80,1(a1)
+	bls.s	loc_2C1A8
+	rts
+; ===========================================================================
+
+loc_2C1A8:
+	subq.b	#2,2(a1)
+	rts
+; ===========================================================================
+
+loc_2C1AE:
+	move.w	(a1),d0
+	addi.w	#$80,d0
+	move.w	d0,d1
+	andi.w	#$700,d1
+	subi.w	#$10,d1
+	move.w	d1,(a1)
+	lsr.w	#8,d0
+	andi.w	#7,d0
+	move.b	(a3,d0.w),d1
+	bsr.w	loc_2C112
+	move.b	#-8,2(a1)
+	addq.b	#4,3(a1)
+	rts
+; ===========================================================================
+; loc_2C1DA:
+SlotMachine_Routine5_3:
+	tst.b	1(a1)
+	beq.s	loc_2C1E2
+	rts
+; ===========================================================================
+
+loc_2C1E2:
+	clr.b	2(a1)
+	addq.b	#4,3(a1)
+	rts
+; ===========================================================================
+; return_2C1EC:
+SlotMachine_Routine5_4:
+	rts
+; ===========================================================================
+; loc_2C1EE:
+SlotMachine_Routine6:
+	clr.w	8(a4)
+	clr.w	$C(a4)
+	clr.w	$10(a4)
+	clr.b	1(a4)
+	bsr.w	SlotMachine_ChooseReward
+	move.b	#$18,0(a4)
+	rts
+; ===========================================================================
+
+loc_2C20A:
+	moveq	#0,d0
+	move.b	3(a4),d0
+	lea	6(a4),a1
+	adda.w	d0,a1
+	lea	(byte_2C401).l,a3
+	adda.w	d0,a3
+	adda.w	d0,a3
+	jmp	BranchTo_SlotMachine_Routine6_1(pc,d0.w)
+; ===========================================================================
+
+BranchTo_SlotMachine_Routine6_1 
+	bra.w	SlotMachine_Routine6_1
+	bra.w	SlotMachine_Routine6_2
+
+	clr.b	3(a4)
+	subq.b	#1,1(a4)
+	move.w	#$AE00,d2
+	bra.s	loc_2C24E
+; ===========================================================================
+; loc_2C23A:
+SlotMachine_Routine6_1:
+	addq.b	#4,3(a4)
+	move.w	#$AA00,d2
+	bra.w	loc_2C24E
+; ===========================================================================
+; loc_2C246:
+SlotMachine_Routine6_2:
+	addq.b	#4,3(a4)
+	move.w	#$AC00,d2
+
+loc_2C24E:
+	move.w	(a1),d0
+	move.b	2(a1),d1
+	ext.w	d1
+	sub.w	d1,(a1)
+	move.w	(a1),d3
+	andi.w	#$7F8,d0
+	andi.w	#$7F8,d3
+	cmp.w	d0,d3
+	bne.s	loc_2C268
+	rts
+; ---------------------------------------------------------------------------
+loc_2C268:
+	bsr.w	loc_2C2B8
+	lea	($FFFFA000).w,a1
+	move.w	#$1F,d1
+
+loc_2C268_loop:
+	move.l	$80(a2),$80(a1)
+	move.l	$100(a2),$100(a1)
+	move.l	$180(a2),$180(a1)
+	move.l	(a2)+,(a1)+
+	addq.b	#8,d3
+	bne.s	loc_2C268_2
+	addi.w	#$100,d3
+	andi.w	#$700,d3
+	bsr.w	loc_2C2B8
+loc_2C268_2:	dbf	d1,loc_2C268_loop
+
+	move.l	#$FFA000,d1
+	tst.w	(Two_player_mode).w
+	beq.s	loc_2C2AC
+	addi.w	#$4000,d2
+
+loc_2C2AC:
+	move.w	#$100,d3
+	jsr	(QueueDMATransfer).l
+	rts
+; ===========================================================================
+
+loc_2C2B8:
+	move.w	d3,d0
+	lsr.w	#8,d0
+	andi.w	#7,d0
+	move.b	(a3,d0.w),d0
+	andi.w	#7,d0
+	ror.w	#7,d0
+	lea	(Art_Slot).l,a2
+	adda.w	d0,a2
+	move.w	d3,d0
+	andi.w	#$F8,d0
+	lsr.w	#1,d0
+	adda.w	d0,a2
+	rts
+; ===========================================================================
+
+; loc_2C2DE:
+SlotMachine_ChooseReward:
+	move.b	5(a4),d2
+	move.b	d2,d3
+	andi.w	#$F0,d2
+	lsr.w	#4,d2
+	andi.w	#$F,d3
+	moveq	#0,d0
+	cmp.b	4(a4),d2
+	bne.s	SlotMachine_ChooseReward2
+	addq.w	#4,d0
+SlotMachine_ChooseReward2:
+	cmp.b	4(a4),d3
+	bne.s	SlotMachine_ChooseReward3
+	addq.w	#8,d0
+SlotMachine_ChooseReward3:
+	jmp	SlotMachine_ChooseReward_JmpTable(pc,d0.w)
+; ===========================================================================
+
+; loc_2C304:
+SlotMachine_ChooseReward_JmpTable: ;;
+	bra.w	loc_2C374
+	bra.w	loc_2C34A
+	bra.w	loc_2C31C
+
+	move.w	d2,d0
+	bsr.w	loc_2C3CA
+	move.w	d0,4(a4)
+	rts
+; ===========================================================================
+
+loc_2C31C:
+	cmpi.b	#3,d3
+	bne.s	loc_2C332
+	move.w	d2,d0
+	bsr.w	loc_2C3CA
+	bsr.w	loc_2C3D8
+	move.w	d0,4(a4)
+	rts
+; ===========================================================================
+
+loc_2C332:
+	cmpi.b	#3,d2
+	bne.w	loc_2C374
+	move.w	d3,d0
+	bsr.w	loc_2C3CA
+	bsr.w	loc_2C3DC
+	move.w	d0,4(a4)
+	rts
+; ===========================================================================
+
+loc_2C34A:
+	cmpi.b	#3,d2
+	bne.s	loc_2C35E
+	move.w	d3,d0
+	bsr.s	loc_2C3CA
+	bsr.w	loc_2C3D8
+	move.w	d0,4(a4)
+	rts
+; ===========================================================================
+
+loc_2C35E:
+	cmpi.b	#3,d3
+	bne.w	loc_2C374
+	move.w	d2,d0
+	bsr.s	loc_2C3CA
+	bsr.w	loc_2C3DC
+	move.w	d0,4(a4)
+	rts
+; ===========================================================================
+
+loc_2C374:
+	cmp.b	d2,d3
+	bne.s	loc_2C3A8
+	cmpi.b	#3,4(a4)
+	bne.s	loc_2C38E
+	move.w	d2,d0
+	bsr.s	loc_2C3CA
+	bsr.w	loc_2C3DC
+	move.w	d0,4(a4)
+	rts
+; ===========================================================================
+
+loc_2C38E:
+	cmpi.b	#3,d2
+	bne.s	loc_2C3A8
+	move.b	4(a4),d0
+	andi.w	#$F,d0
+	bsr.s	loc_2C3CA
+	bsr.w	loc_2C3D8
+	move.w	d0,4(a4)
+	rts
+; ===========================================================================
+
+loc_2C3A8:
+	moveq	#2,d1
+	moveq	#0,d0
+	cmpi.b	#5,4(a4)
+	bne.s	loc_2C3A8_2
+	add.w	d1,d0
+loc_2C3A8_2:
+	cmpi.b	#5,d2
+	bne.s	loc_2C3A8_3
+	add.w	d1,d0
+loc_2C3A8_3:
+	cmpi.b	#5,d3
+	bne.s	loc_2C3A8_4
+	add.w	d1,d0
+loc_2C3A8_4:
+	move.w	d0,4(a4)
+
+loc_2C3CA:
+	add.w	d0,d0
+	lea	(byte_2C3E0).l,a2
+	move.w	(a2,d0.w),d0
+	rts
+; ===========================================================================
+
+loc_2C3D8:
+	asl.w	#2,d0
+	rts
+; ===========================================================================
+
+loc_2C3DC:
+	add.w	d0,d0
+	rts
+
+; ===========================================================================
+; data for the slot machines
+byte_2C3E0:	dc.b   0,$1E,  0,$19,$FF,$FF,  0,$96,  0, $A,  0,$14
+byte_2C3EC:	dc.b 8,3,$33,$12,0,0,$12,1,$11,$24,2,$22,$1E,4,$44,$1E
+		dc.b 5,$55,$FF,$F,$FF	; 16
+byte_2C401:	dc.b   3,  0,  1,  4,  2,  5,  4,  1
+byte_2C409:	dc.b   3,  0,  1,  4,  2,  5,  0,  2
+byte_2C411:	dc.b   3,  0,  1,  4,  2,  5,  4,  1,  0
+; ===========================================================================
+	nop
+
+JmpTo10_SingleObjLoad 
+	jmp	SingleObjLoad
+; ===========================================================================
+
+JmpTo29_MarkObjGone 
+	jmp	MarkObjGone
+; ===========================================================================
+
+JmpTo10_AnimateSprite 
+	jmp	AnimateSprite
+; ===========================================================================
+
+JmpTo6_Adjust2PArtPointer2 
+	rts
+; ===========================================================================
+
+JmpTo54_Adjust2PArtPointer 
+	rts
+; ===========================================================================
+
+JmpTo12_CalcSine 
+	jmp	(CalcSine).l
+; ===========================================================================
+
+; ===========================================================================
+	
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Object 47 - pinball bumper (SYZ)
@@ -23840,7 +24475,7 @@ GotThroughAct:				; XREF: Obj3E_EndAct
 		tst.b	(v_objspace+$5C0).w
 		bne.s	locret_ECEE
 		move.w	(v_limitright2).w,(v_limitleft2).w
-		clr.l	($FFFFFE2C).w	; disable shield and invincibility ($FFFFFE2C-$FFFFFE2F)
+		clr.b	(MainCharacter+status_secondary).w	; disable shield and invincibility ($FFFFFE2C-$FFFFFE2F)
 		clr.b	(f_timecount).w	; stop time counter
 ;		clr.b	($FFFFFE2E).w
 		move.b	#$3A,($FFFFD5C0).w
@@ -29964,7 +30599,7 @@ Obj01_Display:
 		jsr	DisplaySprite
 
 Obj01_ChkInvin:
-		tst.b	($FFFFFE2D).w	; does Sonic have invincibility?
+		btst	#1,status_secondary(a0)	; does Sonic have invincibility?
 		beq.w	Obj01_ChkShoes	; if not, branch
 		tst.b	invincibility_time(a0)		; check	time remaining for invinciblity
 		beq.s	Obj01_ChkShoes	; if no	time remains, branch
@@ -29987,10 +30622,10 @@ Obj01_ChkInvin:
 		jsr	(PlayMusic).l
 
 Obj01_RmvInvin:
-		move.b	#0,($FFFFFE2D).w ; cancel invincibility
+		bclr	#1,status_secondary(a0) ; cancel invincibility
 
 Obj01_ChkShoes:
-		tst.b	($FFFFFE2E).w		; does Sonic have speed	shoes?
+		btst	#2,status_secondary(a0)		; does Sonic have speed	shoes?
 		beq.s	Obj01_ExitChk		; if not, branch
 		tst.b	speedshoes_time(a0)				; check	time remaining
 		beq.s	Obj01_ExitChk
@@ -30003,7 +30638,7 @@ Obj01_ChkShoes:
 		bsr.w	ApplySpeedSettings	; Fetch Speed settings
 		
 Obj01_ChkShoesCont:		
-		move.b	#0,($FFFFFE2E).w	; cancel speed	shoes
+		bclr	#2,status_secondary(a0)	; cancel speed	shoes
 		move.w	#$0,d0
 		jmp	(SetTempo).l	; run music at normal speed
 ; ===========================================================================
@@ -31010,7 +31645,7 @@ Sonic_JumpDash:
 ;JD_SetSpeed1:
 JD_SetSpeed1:
 		moveq	#0,d1				; Quickly clear d1
-		tst.b	($FFFFFE2E).w		; Does Sonic have speedshoes?
+		btst	#2,status_secondary(a0)		; Does Sonic have speedshoes?
 		beq.s	setJDspeed1				; If not, branch
 		addq.b	#1,d1				; Quickly add 1 to d1
 setJDspeed1:
@@ -31336,11 +31971,11 @@ Sonic_CheckGoSuper:
 	move.b	#$1,($FFFFF7C8).w
 	jsr	Super_and_Invincibility_Stars_Jmp
 	move.b	#$22,anim(a0)			; use transformation animation
-	move.b	#0,($FFFFFE2E).w	; clear Super Shoes	;Mercury Constants
+	bclr	#2,status_secondary(a0)	; clear Super Shoes	;Mercury Constants
 	move.w	#$E3,($FFFFF00A).w
 	clr.b	speedshoes_time(a0)	; clear time limit of the invincibility
 	move.b	#0,invincibility_time(a0)
-	move.b	#1,($FFFFFE2D).w	; make Sonic invincible
+	bset	#1,status_secondary(a0)	; make Sonic invincible
 	lea	(Sonic_top_speed).w,a2	; Load Sonic_top_speed into a2
 	bsr.w	ApplySpeedSettings	; Fetch Speed settings
 	move.b	#$8E,($FFFFD200).w	; load Obj7E (super sonic stars object) at $FFFFD200
@@ -31431,7 +32066,7 @@ Sonic_RevertToNormal_4:
     move.w    #$28,($FFFFF65C).w; Unknown
     move.b    #0,($FFFFFE19).w
     move.b    #1,next_anim(a0); Change animation back to normal ?
-    move.b    #0,($FFFFFE2D).w; Remove invincibility
+    bclr	#1,status_secondary(a0); Remove invincibility
 	lea	(Sonic_top_speed).w,a2		; Load Sonic_top_speed into a2
 	bra.w	ApplySpeedSettings		; Fetch Speed settings and return
 super_GetBgmRevert:
@@ -31775,7 +32410,7 @@ Sonic_JumpRightFlip:
 	move.b	#0,flips_remaining(a0)
 	moveq	#0,d0
 
-BranchTo_Sonic_JumpFlipSet 
+BranchTo_Sonic_JumpFlipSet
 	bra.s	Sonic_JumpFlipSet
 ; ===========================================================================
 ; loc_1AE88:
@@ -33148,16 +33783,16 @@ ResumeMusic:				; XREF: Obj64_Wobble; Sonic_Water; Obj0A_ReduceAir; Debug_Main;
 		cmpi.w	#$C,($FFFFFE14).w
 
 ; Third section of the NineKode - Play correct music after the countdown (if you breathe)
- 
+
 		bhi.w	loc_140AC	; change to bhi.w!
 ;		bcc.w	ResumeMusic_Part2
 
 		cmpa.w	#MainCharacter,a1
 		bne.s	loc_140AC	; branch if it isn't player 1
-		
+
 Air_GetBgm:
 		move.w  (Level_Music).w,d0      ; prepare to play current level's music
-		tst.b	($FFFFFE2D).w	; is Sonic invincible?
+		btst	#1,(Maincharacter+status_secondary).w	; is Sonic invincible?
 		beq.s	loc_186A0		; if not branch
 		move.w	#$2C,d0
 
@@ -33165,7 +33800,7 @@ loc_186A0:
 		tst.b	($FFFFFE19).w	; is Sonic super?
 		beq.w	Air_PlayMusic	; if not branch
 		move.w	#$2D,d0
- 
+
 Air_PlayMusic:
 		tst.b	(Current_Boss_ID).w ; Is this a boss fight?
 		beq.s	loc_140A6		; if not branch
@@ -33229,7 +33864,7 @@ Map_obj0A:
 ; Object 02 - Shield (A slightly modified port from Sonic 2F)
 ; ---------------------------------------------------------------------------
 Obj02:
-		tst.b	($FFFFFE2D).w	; Is Sonic Invincible?
+		btst	#1,(Maincharacter+status_secondary).w	; Is Sonic Invincible?
 		bne.w	loc_19500		; if yes, branch
 		move.l	#Unc_Shield,d1			        ; Call for Regular Shield Art
 		move.w	#$A820,d2			        ; Load Art from this location (VRAM location*20)
@@ -33267,13 +33902,15 @@ Obj38_Main:
 	;bsr.w	Adjust2PArtPointer
 ; loc_1D92C:
 Obj38_Shield:
+	move.w	(MainCharacter+x_pos).w,d0
+	move.w	(MainCharacter+y_pos).w,d1
 ;	movea.w	parent(a0),a2 ; a2=character
-	tst.b	($FFFFFE2D).w	; does Sonic have invincibility?
+	btst	#1,(Maincharacter+status_secondary).w	; does Sonic have invincibility?
 	bne.s	return_1D976	; if yes, branch
-	tst.b	($FFFFFE2C).w	; does Sonic have shield?
+	btst	#0,(Maincharacter+status_secondary).w	; does Sonic have shield?
 	beq.s	JmpTo7_DeleteObject	; if the flag is not set, branch
-	move.w	(MainCharacter+x_pos).w,x_pos(a0)	; Copy the X-position from Sonic
-	move.w	(MainCharacter+y_pos).w,y_pos(a0)	; Copy the Y-position from Sonic
+	move.w	d0,x_pos(a0)	; Copy the X-position from Sonic
+	move.w	d1,y_pos(a0)	; Copy the Y-position from Sonic
 	move.b	(MainCharacter+status).w,status(a0)	; Copy Sonic's Status
 	andi.w	#$7FFF,art_tile(a0)
 	tst.w	(MainCharacter+art_tile).w
@@ -33357,7 +33994,7 @@ loc_181C4:				; DATA XREF: ROM:00018154o
 		lea	($FFFFD000).w,a1
 ;		tst.b	($FFFFFE19).w
 ;		bne.w	loc_181FA
-		tst.b	($FFFFFE2D).w
+		btst	#1,(Maincharacter+status_secondary).w
 		beq.w	loc_181FA
 		move.w	8(a1),d0
 		move.w	d0,8(a0)
@@ -33408,7 +34045,7 @@ loc_1823E:				; DATA XREF: ROM:00018156o
 		lea	($FFFFD000).w,a1
 		tst.b	($FFFFFE19).w
 		bne.s	loc_181FA
-		tst.b	($FFFFFE2D).w
+		btst	#1,(Maincharacter+status_secondary).w
 		beq.s	loc_181FA
 		lea	($FFFFF7A8).w,a5
 		lea	($FFFFCB00).w,a6
@@ -33675,9 +34312,9 @@ Obj4A_RmvSonic:				; XREF: Obj4A_Index
 ;		move.w	($FFFFD008).w,8(a0)
 ;		move.w	($FFFFD00C).w,$C(a0)
 ;		move.b	($FFFFD022).w,status(a0)
-		lea	(Ani_obj4A).l,a1
-		jsr	AnimateSprite
-;		cmpi.b	#2,mapping_frame(a0)
+;		lea	(Ani_obj4A).l,a1
+;		jsr	AnimateSprite
+		move.b	#1,mapping_frame(a0)
 ;		bne.s	Obj4A_Display
 ;		tst.b	($FFFFD000).w
 ;		beq.s	Obj4A_Display
@@ -43375,7 +44012,7 @@ HA_Bounceup:
 ; ===========================================================================
 
 Touch_Enemy:				; XREF: Touch_ChkValue
-		tst.b	($FFFFFE2D).w	; is Sonic invincible?
+		btst	#1,(Maincharacter+status_secondary).w	; is Sonic invincible?
 		bne.s	loc_1AF40	; if yes, branch
 		cmpi.b	#$1F,anim(a0)	; is Sonic Spin Dashing?
 		beq.w	loc_1AF40	; if yes, branch
@@ -43469,7 +44106,7 @@ BounceJD:
 		move.w	#-$320,$12(a0)
 		
 BounceJD_Shoes:
-		tst.b	($FFFFFE2E).w	; does sonic has speed shoes?
+		btst	#2,status_secondary(a0)	; does sonic has speed shoes?
 		beq.s	BounceJD_End	; if not, branch
 		move.w	#-$620,$12(a0)	; use -$620 for Y-velocity (move sonic upwards)
 		
@@ -43483,7 +44120,7 @@ loc_1AFDA:				; XREF: Touch_CatKiller
 Touch_ChkHurt:				; XREF: Touch_ChkValue
 		cmpi.b	#$1C,($FFFFF600).w
 		beq.s	loc_1AFE6
-		tst.b	($FFFFFE2D).w	; is Sonic invincible?
+		btst	#1,(Maincharacter+status_secondary).w	; is Sonic invincible?
 		beq.s	Touch_Hurt	; if not, branch
 
 loc_1AFE6:				; XREF: Touch_Hurt
@@ -43508,14 +44145,14 @@ Touch_Hurt:				; XREF: Touch_ChkHurt
 
 
 HurtSonic:
-		tst.b	($FFFFFE2C).w	; does Sonic have a shield?
+		btst	#0,status_secondary(a0)	; does Sonic have a shield?
 		bne.s	Hurt_Shield	; if yes, branch
 		tst.w	($FFFFFE20).w	; does Sonic have any rings?
 		beq.w	KillCharacter	; if not, branch
 		jsr	SingleObjLoad
 		bne.s	Hurt_Shield
 		cmpi.b	#6,$3B(a0) ; has Sonic been hurt 6 times already?
-		beq.s	@LoadRings ; if yes, branch
+		bge.s	@LoadRings ; if yes, branch
 		addq.b	#1,$3B(a0) ; increase the hit counter
 @LoadRings:
 		move.b	#$37,0(a1)	; load bouncing	multi rings object
@@ -43523,7 +44160,7 @@ HurtSonic:
 		move.w	$C(a0),$C(a1)
 
 Hurt_Shield:
-		move.b	#0,($FFFFFE2C).w ; remove shield
+		bclr	#0,status_secondary(a0) ; remove shield
 		move.b	#4,routine(a0)
 		jsr	Sonic_ResetOnFloor
 		bset	#1,status(a0)
@@ -43576,6 +44213,8 @@ KillCharacter_Superrestorespeed:
 
 KillCharacter:				; CODE XREF: sub_5352+38p
 					; ROM:0000CF6Ap ...
+		cmpi.b	#7,($FFFFFE10).w ; check if level is in the new zones
+		beq.w	Kill_NoDeath
 		cmpi.b	#$1C,($FFFFF600).w
 		beq.w	Kill_NoDeath
 		tst.w	($FFFFFE08).w
@@ -43597,7 +44236,7 @@ Kill_NotSuper:				; CODE XREF: sub_1F3D8+Aj
 		move.b	#0,($FFFFFE1B).w	; clear lives counter
 		move.b	#0,($FFFFFE1A).w
 		move.b	#0,($FFFFFE1E).w
-		clr.l	($FFFFFE2C).w
+		clr.b	status_secondary(a0)
 ;KillSubSRAM:
 ;		cmpi.b #0,($FFFFFE12).w
 ;		beq.w	KillZero
@@ -43625,7 +44264,7 @@ loc_1F444:				; CODE XREF: sub_1F3D8+66j
 Kill_NoDeath:				; CODE XREF: sub_1F3D8+4j
 		moveq	#-1,d0
 		rts
-		
+
 ; End of function KillCharacter
 
 
@@ -43813,7 +44452,7 @@ loc_1B268:
 
 loc_1B288:
 		move.b	#0,-5(a2)
-		rts	
+		rts
 ; End of function SS_ShowLayout
 
 ; ---------------------------------------------------------------------------
@@ -45900,29 +46539,17 @@ loc_1C518:
 		move.w	#$D,d1
 		bra.w	LoadTiles
 ; End of function AniArt_GiantRing
-;-----------------------------------------------------------------------------------------------
-; Code to move the HUD when the level starts
-;-----------------------------------------------------------------------------------------------
-HudMove_DisplayCol:
-							jsr     SpeedToPos			; Call the routine to move an object
-							cmpi.w  #$90,8(a0)			; Is the position equal to $90?
-							bge.s   HUD_NoMove			; if yes, branch
-							move.w  #$C00,$10(a0)		; make the object move to the right
-							bra     HudMove_Rts1			; branch to the rest of the code
-HUD_NoMove:												; XREF: HudMove_DisplayCol
-							clr.w   $10(a0)				; Clear X movement
-							move.w  #$90,8(a0)			; Move HUD to $90 to make sure it's at the
-														; right X coordinate
-HudMove_Rts1:											; XREF: Hudmove_DisplayCol
-							rts							; return
 
-; ===========================================================================
 ; ===========================================================================
 ; ---------------------------------------------------------------------------
 ; Object 21 - SCORE, TIME, RINGS
 ; ---------------------------------------------------------------------------
 
 Obj21:					; XREF: Obj_Index
+		cmpi.b	#7,($FFFFFE10).w ; check if level is in the new zones
+		bne.s	Obj21_NoCutscene
+		rts
+Obj21_NoCutscene:
 		cmpi.b	#$3A,($FFFFD5C0).w	; is the level finished?
 		bne.s	Obj21_HUD	; if not, branch
 		jmp		DeleteObject
@@ -45959,11 +46586,11 @@ Obj21_Main:				; XREF: Obj21_Main
 		move.b	#0,priority(a0)
 
 Obj21_Flash:
-		cmpi.b	#9,(v_player).w ; test if Special Stage Sonic is present
-		beq.s	@Obj21_Flash	; if yes, branch
-		jsr      HudMove_DisplayCol
-		jmp		@Obj21_Flash2
-@Obj21_Flash:
+;		cmpi.b	#9,(v_player).w ; test if Special Stage Sonic is present
+;		beq.s	@Obj21_Flash	; if yes, branch
+;		jsr      HudMove_DisplayCol
+;		jmp		@Obj21_Flash2
+;@Obj21_Flash:
 		move.w  #$90,8(a0)
 @Obj21_Flash2:
         tst.w    ($FFFFFE20).w; do you have any rings?
@@ -46002,6 +46629,7 @@ Map_obj21SS:
 ; HUD code
 ; ----------------------------------------------------------------------------
 loc_40804:
+
 	tst.w	(Ring_count).w
 	beq.s	loc_40820
 	moveq	#0,d1
@@ -46025,13 +46653,16 @@ loc_40820:
 	addq.w	#2,d1
 
 loc_40836:
-	move.w	(Object_RAM+$380+x_pos).w,d3
+;	illegal
+;	movem 	d1-d3,-(sp)
+;	jsr		LoadLivesCounterArt
+;	movem	(sp)+,d1-d3
+	move.w	#$90,d3
 	move.w	#$108,d2
 	lea	(Map_obj21).l,a1
 	movea.w	#$6CA,a3
 	add.w	d1,d1
 	adda.w	(a1,d1.w),a1
-	moveq	#$00,d1					; MJ: clear d1 (because of our byte to word change)
 	move.w	(a1)+,d1
 	subq.w	#1,d1
 	bmi.s	return_40858
