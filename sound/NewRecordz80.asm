@@ -17,6 +17,7 @@ NewRecord_Header:
 
 ; DAC Data
 NewRecord_DAC:
+	smpsstop
 ; FM1 Data
 NewRecord_FM1:
 	smpsCall            NewRecord_Call05

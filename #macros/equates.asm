@@ -85,7 +85,7 @@ Horiz_Scroll_Buf		equ $FFFFCC00
 Sonic_Stat_Record_Buf		equ $FFFFCA00
 Sonic_Pos_Record_Buf		equ $FFFFCB00
 Tails_Pos_Record_Buf		equ $FFFFE600
-Ring_Positions		equ $FFFFCE00
+Ring_Positions		equ $FFFF9800
 Camera_RAM			equ $FFFFF700
 ;Camera_X_pos			equ $FFFFEE00
 ;Camera_Y_pos			equ $FFFFEE04

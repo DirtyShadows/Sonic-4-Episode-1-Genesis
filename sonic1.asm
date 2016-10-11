@@ -85,6 +85,9 @@ Ring_end_addr_ROM =        (Ring_Positions+Rings_Space+4)
 Ring_start_addr_ROM_P2 =    (Ring_Positions+Rings_Space+8)
 Ring_end_addr_ROM_P2 =    (Ring_Positions+Rings_Space+12)
 Ring_free_RAM_start =       (Ring_Positions+Rings_Space+16)
+Ring_start_addr_RAM =         $FFFFF312
+Ring_start_addr_RAM_P2 =    $FFFFF314
+
 vdp_control_port:	equ $C00004
 v_vdp_buffer2:	= $FFFFF640	; VDP instruction buffer (2 bytes)
 ; ---------------------------------------------------------------------------
@@ -5782,7 +5785,6 @@ Offset_0x0040EC:
 		bsr.w	InitPlayers
 		tst.w	($FFFFFFF0).w
 		bmi.s	Level_ChkDebug
-		move.b	#$21,($FFFFD380).w ; load HUD object
 		move.w	#-$C00,($FFFFD388).w ; load Obj01 Sonic object at $FFFFD000
 
 Level_ChkDebug:
@@ -5904,6 +5906,7 @@ Level_StartGame:
 		move.b	#1,(f_timecount).w ; update time counter
 	endc	;end HUD Centiseconds
 ;	move.b	#1,($FFFFFE2C).w
+		move.b	#$21,($FFFFD380).w ; load HUD object
 		bclr	#7,($FFFFF600).w ; subtract 80 from screen mode
 	;	move.b   #1,($FFFFFE1E).w   ; update time counter
 
@@ -20861,10 +20864,10 @@ BuildSprites:
 	lea	(Sprite_Table).w,a2
 	moveq	#0,d5
 	moveq	#0,d4
-	tst.b	($FFFFFE2C).w
-	beq.s	sub_16604_2
-	bsr.w	JmpTo_loc_40804
-sub_16604_2:
+;	tst.b	($FFFFFE2C).w
+;	beq.s	sub_16604_2
+;	bsr.w	JmpTo_loc_40804
+;sub_16604_2:
 	lea	(Sprite_Table_Input).w,a4
 	moveq	#7,d7
 
@@ -21042,21 +21045,21 @@ loc_167B6:
 
 loc_167CA:
 	swap	d0
-		move.w	(a6)+,d3
-		sub.w	(a4),d3
-		addi.w	#$80,d3	; '?'
-		move.w	(a6)+,d2
-		sub.w	4(a4),d2
-		addi.w	#$80,d2	; '?'
-		andi.w	#$7FF,d2
-		addq.w	#1,a6
-		moveq	#0,d1
-		move.b	(a6)+,d1
-		add.w	d1,d1
-		movea.l	a5,a1
-		adda.w	(a1,d1.w),a1
-		move.b	(a1)+,d1
-		subq.b	#1,d1
+	move.w	(a6)+,d3
+	sub.w	(a4),d3
+	addi.w	#$80,d3	; '?'
+	move.w	(a6)+,d2
+	sub.w	4(a4),d2
+	addi.w	#$80,d2	; '?'
+	andi.w	#$7FF,d2
+	addq.w	#1,a6
+	moveq	#0,d1
+	move.b	(a6)+,d1
+	add.w	d1,d1
+	movea.l	a5,a1
+	adda.w	(a1,d1.w),a1
+	move.b	(a1)+,d1
+	subq.b	#1,d1
 	bmi.s	loc_167FE
 	move.w	d4,-(sp)
 	bsr.w	sub_1680A
@@ -22253,15 +22256,7 @@ FindFreeObj:
 SingleObjLoad:
 		lea	($FFFFD800).w,a1 ; start address for object RAM
 		move.w	#$5F,d0
-
-loc_DA94:
-		tst.b	(a1)		; is object RAM	slot empty?
-		beq.s	locret_DAA0	; if yes, branch
-		lea	object_size(a1),a1	; goto next object RAM slot
-		dbf	d0,loc_DA94	; repeat $5F times
-
-locret_DAA0:
-		rts	
+		bra.s	SingleObjLoad2_
 ; End of function SingleObjLoad
 
 
