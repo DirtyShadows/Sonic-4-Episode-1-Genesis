@@ -45028,7 +45028,7 @@ Obj09_Move:				; XREF: Obj09_OnWall; Obj09_InAir
 		btst	#2,($FFFFF602).w ; is left being pressed?
 		beq.s	Obj09_ChkRight	; if not, branch
 		jsr	Obj09_MoveLeft
-
+		neg.w	($FFFFF782).w
 Obj09_ChkRight:
 		btst	#3,($FFFFF602).w ; is right being pressed?
 		beq.s	loc_1BA78	; if not, branch
